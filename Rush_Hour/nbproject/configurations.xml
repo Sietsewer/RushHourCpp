@@ -14,6 +14,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>Board.cpp</itemPath>
       <itemPath>Vehicle.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
@@ -58,6 +59,8 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="Board.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="Board.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Vehicle.cpp" ex="false" tool="1" flavor2="0">
@@ -88,6 +91,8 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="Board.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="Board.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Vehicle.cpp" ex="false" tool="1" flavor2="0">

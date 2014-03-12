@@ -8,15 +8,18 @@
 #ifndef BOARD_H
 #define	BOARD_H
 
-//using namespace std;
-
 class Board{
 public:
     int boardsize;
+    
     Board(int size);
+    bool intersect(Vehicle *v, int dist);
+    bool checkBounds(Vehicle *v, int dist);
     
 private:
-    std::vector<Vehicle> vehicles;
+    std::vector<Vehicle*> vehicles; //vector of pointers to vehicles
+    
+    void addVehicle(Vehicle *v);
 };
 
 #endif	/* BOARD_H */
