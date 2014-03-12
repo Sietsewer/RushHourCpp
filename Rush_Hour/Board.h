@@ -8,12 +8,15 @@
 #ifndef BOARD_H
 #define	BOARD_H
 
+//using namespace std;
+
 class Board{
 public:
     int boardsize;
+    Board(int size);
     
 private:
-    //vector of vehicles
+    std::vector<Vehicle> vehicles;
 };
 
 #endif	/* BOARD_H */

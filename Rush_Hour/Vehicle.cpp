@@ -1,22 +1,22 @@
 #include "Vehicle.h"
 
-int width;
-int height;
-int xanchor;
-int yanchor;
-Orientation orientation;
-
-Vehicle::Vehicle(int width, int height){
+Vehicle::Vehicle(int x, int y, int width, int height){
     this->width = width;
     this->height = height;
+    this->setAnchors(x, y);
     
-    this->orientation = width > height ? Orientation.Horizontal : Orientation.Vertical;
+    this->orientation = width > height ? Horizontal : Vertical;
 }
 
-Vehicle::rotate(){
+void Vehicle::rotateVehicle(){
     int temp = this->width;
     this->width = this->height;
     this->height = this->width;
     
-    this->orientation = this->width > this->height ? Orientation.Horizontal : Orientation.Vertical;
+    this->orientation = this->width > this->height ? Horizontal : Vertical;
+}
+
+void Vehicle::setAnchors(int x, int y){
+    this->xanchor = x;
+    this->yanchor = y;
 }

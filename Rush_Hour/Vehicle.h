@@ -16,10 +16,9 @@ public:
     int xanchor;
     int yanchor;
     Orientation orientation;
-    
-    Vehicle(int x, int y int width, int height);
+    Vehicle(int x, int y, int width, int height);
     void setAnchors(int x, int y);
-    void rotate();
+    void rotateVehicle();
 };
 
 #endif	/* VEHICLE_H */

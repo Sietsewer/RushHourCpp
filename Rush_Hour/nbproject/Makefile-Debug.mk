@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Vehicle.o \
 	${OBJECTDIR}/main.o
 
 
@@ -61,6 +62,11 @@ LDLIBSOPTIONS=-L../SFML-2.1/lib -lsfml-graphics-s-d -lsfml-window-s-d -lsfml-sys
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/rush_hour.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/rush_hour ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/Vehicle.o: Vehicle.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -DSFML_STATIC -I../SFML-2.1/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/Vehicle.o Vehicle.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
