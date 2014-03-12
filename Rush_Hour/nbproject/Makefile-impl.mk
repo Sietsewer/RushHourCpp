@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=rush_hour
+PROJECTNAME=Rush_Hour
 
 # Active Configuration
 DEFAULTCONF=Debug
