@@ -1,6 +1,5 @@
 build/Debug/MinGW-Windows/main.o: main.cpp \
- ../SFML-2.1/include/SFML/Window.hpp ../SFML-2.1/include/SFML/System.hpp \
- ../SFML-2.1/include/SFML/Config.hpp \
+ ../SFML-2.1/include/SFML/System.hpp ../SFML-2.1/include/SFML/Config.hpp \
  ../SFML-2.1/include/SFML/System/Clock.hpp \
  ../SFML-2.1/include/SFML/System/Export.hpp \
  ../SFML-2.1/include/SFML/System/Time.hpp \
@@ -22,6 +21,8 @@ build/Debug/MinGW-Windows/main.o: main.cpp \
  ../SFML-2.1/include/SFML/System/Vector2.inl \
  ../SFML-2.1/include/SFML/System/Vector3.hpp \
  ../SFML-2.1/include/SFML/System/Vector3.inl \
+ ../SFML-2.1/include/SFML/Graphics.hpp \
+ ../SFML-2.1/include/SFML/Window.hpp \
  ../SFML-2.1/include/SFML/Window/Context.hpp \
  ../SFML-2.1/include/SFML/Window/Export.hpp \
  ../SFML-2.1/include/SFML/Window/GlResource.hpp \
@@ -33,9 +34,34 @@ build/Debug/MinGW-Windows/main.o: main.cpp \
  ../SFML-2.1/include/SFML/Window/VideoMode.hpp \
  ../SFML-2.1/include/SFML/Window/Window.hpp \
  ../SFML-2.1/include/SFML/Window/WindowHandle.hpp \
- ../SFML-2.1/include/SFML/Window/WindowStyle.hpp
-
-../SFML-2.1/include/SFML/Window.hpp:
+ ../SFML-2.1/include/SFML/Window/WindowStyle.hpp \
+ ../SFML-2.1/include/SFML/Graphics/BlendMode.hpp \
+ ../SFML-2.1/include/SFML/Graphics/Color.hpp \
+ ../SFML-2.1/include/SFML/Graphics/Export.hpp \
+ ../SFML-2.1/include/SFML/Graphics/Font.hpp \
+ ../SFML-2.1/include/SFML/Graphics/Glyph.hpp \
+ ../SFML-2.1/include/SFML/Graphics/Rect.hpp \
+ ../SFML-2.1/include/SFML/Graphics/Rect.inl \
+ ../SFML-2.1/include/SFML/Graphics/Texture.hpp \
+ ../SFML-2.1/include/SFML/Graphics/Image.hpp \
+ ../SFML-2.1/include/SFML/Graphics/RenderStates.hpp \
+ ../SFML-2.1/include/SFML/Graphics/Transform.hpp \
+ ../SFML-2.1/include/SFML/Graphics/RenderTexture.hpp \
+ ../SFML-2.1/include/SFML/Graphics/RenderTarget.hpp \
+ ../SFML-2.1/include/SFML/Graphics/View.hpp \
+ ../SFML-2.1/include/SFML/Graphics/PrimitiveType.hpp \
+ ../SFML-2.1/include/SFML/Graphics/Vertex.hpp \
+ ../SFML-2.1/include/SFML/Graphics/RenderWindow.hpp \
+ ../SFML-2.1/include/SFML/Graphics/Shader.hpp \
+ ../SFML-2.1/include/SFML/Graphics/Shape.hpp \
+ ../SFML-2.1/include/SFML/Graphics/Drawable.hpp \
+ ../SFML-2.1/include/SFML/Graphics/Transformable.hpp \
+ ../SFML-2.1/include/SFML/Graphics/VertexArray.hpp \
+ ../SFML-2.1/include/SFML/Graphics/CircleShape.hpp \
+ ../SFML-2.1/include/SFML/Graphics/RectangleShape.hpp \
+ ../SFML-2.1/include/SFML/Graphics/ConvexShape.hpp \
+ ../SFML-2.1/include/SFML/Graphics/Sprite.hpp \
+ ../SFML-2.1/include/SFML/Graphics/Text.hpp
 
 ../SFML-2.1/include/SFML/System.hpp:
 
@@ -83,6 +109,10 @@ build/Debug/MinGW-Windows/main.o: main.cpp \
 
 ../SFML-2.1/include/SFML/System/Vector3.inl:
 
+../SFML-2.1/include/SFML/Graphics.hpp:
+
+../SFML-2.1/include/SFML/Window.hpp:
+
 ../SFML-2.1/include/SFML/Window/Context.hpp:
 
 ../SFML-2.1/include/SFML/Window/Export.hpp:
@@ -106,3 +136,57 @@ build/Debug/MinGW-Windows/main.o: main.cpp \
 ../SFML-2.1/include/SFML/Window/WindowHandle.hpp:
 
 ../SFML-2.1/include/SFML/Window/WindowStyle.hpp:
+
+../SFML-2.1/include/SFML/Graphics/BlendMode.hpp:
+
+../SFML-2.1/include/SFML/Graphics/Color.hpp:
+
+../SFML-2.1/include/SFML/Graphics/Export.hpp:
+
+../SFML-2.1/include/SFML/Graphics/Font.hpp:
+
+../SFML-2.1/include/SFML/Graphics/Glyph.hpp:
+
+../SFML-2.1/include/SFML/Graphics/Rect.hpp:
+
+../SFML-2.1/include/SFML/Graphics/Rect.inl:
+
+../SFML-2.1/include/SFML/Graphics/Texture.hpp:
+
+../SFML-2.1/include/SFML/Graphics/Image.hpp:
+
+../SFML-2.1/include/SFML/Graphics/RenderStates.hpp:
+
+../SFML-2.1/include/SFML/Graphics/Transform.hpp:
+
+../SFML-2.1/include/SFML/Graphics/RenderTexture.hpp:
+
+../SFML-2.1/include/SFML/Graphics/RenderTarget.hpp:
+
+../SFML-2.1/include/SFML/Graphics/View.hpp:
+
+../SFML-2.1/include/SFML/Graphics/PrimitiveType.hpp:
+
+../SFML-2.1/include/SFML/Graphics/Vertex.hpp:
+
+../SFML-2.1/include/SFML/Graphics/RenderWindow.hpp:
+
+../SFML-2.1/include/SFML/Graphics/Shader.hpp:
+
+../SFML-2.1/include/SFML/Graphics/Shape.hpp:
+
+../SFML-2.1/include/SFML/Graphics/Drawable.hpp:
+
+../SFML-2.1/include/SFML/Graphics/Transformable.hpp:
+
+../SFML-2.1/include/SFML/Graphics/VertexArray.hpp:
+
+../SFML-2.1/include/SFML/Graphics/CircleShape.hpp:
+
+../SFML-2.1/include/SFML/Graphics/RectangleShape.hpp:
+
+../SFML-2.1/include/SFML/Graphics/ConvexShape.hpp:
+
+../SFML-2.1/include/SFML/Graphics/Sprite.hpp:
+
+../SFML-2.1/include/SFML/Graphics/Text.hpp:
