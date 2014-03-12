@@ -17,7 +17,7 @@ public:
     int yanchor;
     Orientation orientation;
     
-    Vehicle(int width, int height);
+    Vehicle(int x, int y int width, int height);
     void setAnchors(int x, int y);
     void rotate();
 };
