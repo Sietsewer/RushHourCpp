@@ -68,3 +68,11 @@ bool Board::checkBounds(Vehicle* v, int dist){
         return v->yanchor + dist >= 0 && v->yanchor + dist + v->height <= this->boardsize;
     }
 }
+
+Board::~Board(){
+    while (!this->vehicles.empty()){
+        delete this->vehicles.back();
+        this->vehicles.back() = NULL;
+        this->vehicles.pop_back();
+    }
+}

@@ -34,16 +34,11 @@ int main(int argc, char** argv) {
     
     //testing shit pls don't touch kthxbye
     Board *b = new Board(6);
-    Vehicle *v1 = new Vehicle(0, 0, 1, 3);
-    Vehicle *v2 = new Vehicle(1, 0, 2, 1);
-    b->addVehicle(v1);
-    b->addVehicle(v2);
-    std::string res = (b->canMove(v1, 0)) ? "true" : "false";
-    cout << res << endl;
+    b->addVehicle(new Vehicle(0, 0, 1, 3));
+    b->addVehicle(new Vehicle(1, 0, 2, 1));
     cout << b->toString() << endl;
-    delete b; //may leak a bit of memory!
-    delete v1;
-    delete v2;
+    delete b; //memory leak fixed!
+    b = NULL; //for safety
     //end test
     
     sf::RenderWindow window;

@@ -17,13 +17,13 @@ public:
     bool canMove(Vehicle *v, int dist);
     std::string toString();
     
+    ~Board();
+    
 private:
     std::vector<Vehicle*> vehicles; //vector of pointers to vehicles
     
     bool intersect(Vehicle *v, int dist);
     bool checkBounds(Vehicle *v, int dist);
-    
-    
 };
 
 #endif	/* BOARD_H */
