@@ -22,22 +22,27 @@ sf::Color backColor  = sf::Color::White;
 sf::RectangleShape sideBarOutline(sf::Vector2f(200.0f, 600.0f));
 sf::RectangleShape sideBarPanel1(sf::Vector2f(160.0f, 300.0f));
 sf::RectangleShape sideBarPanel2(sf::Vector2f(160.0f, 240.0f));
+sf::RectangleShape btnSolve(sf::Vector2f(120.0f, 40.0f));
+sf::Font font;
+sf::Text text;
 //Menu items end
 
 int main(int argc, char** argv) {
     
     sf::RenderWindow window;
-    window.create(sf::VideoMode(800, 600), "sup!");
+    window.create(sf::VideoMode(800, 600), "Rush Hour");
     //Menu items settings
     //  Colours
     sideBarOutline.setFillColor(themeColor);
     sideBarPanel1.setFillColor(backColor);
     sideBarPanel2.setFillColor(backColor);
-    
+    btnSolve.setFillColor(themeColor);
+
     //  Positions
     sideBarOutline.setPosition(600.0f, 0.0f);
     sideBarPanel1.setPosition(620.0f, 20.0f);
     sideBarPanel2.setPosition(620.0f, 340.0f);
+    btnSolve.setPosition(640.0f, 360.0f);
     //Menu items end
     while (window.isOpen())
     {
@@ -58,6 +63,8 @@ int main(int argc, char** argv) {
         window.draw(sideBarOutline);
         window.draw(sideBarPanel1);
         window.draw(sideBarPanel2);
+        window.draw(btnSolve);
+        window.draw(text);
         //END menu background
         
         //Menu button
