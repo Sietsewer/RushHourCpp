@@ -7,6 +7,15 @@ Board::Board(int size){
 }
 
 void Board::addVehicle(Vehicle* v){
+    //disallow adding intersecting vehicles or vehicles out of bounds
+    if (this->intersect(v, 0) || !this->checkBounds(v, 0)){
+        return;
+    }
+    for (int i = 0; i < vehicles.size(); i++){
+        if (vehicles[i]->sameAnchors(v)){
+            return;
+        }
+    }
     this->vehicles.push_back(v);
 }
 

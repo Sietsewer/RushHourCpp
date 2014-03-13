@@ -10,6 +10,8 @@
 #include <iostream> //for console debugging
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include "Vehicle.h"
+#include "Board.h"
 
 using namespace std;
 
