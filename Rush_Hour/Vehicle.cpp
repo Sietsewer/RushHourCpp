@@ -1,3 +1,5 @@
+#include <string>
+#include <sstream>
 #include "Vehicle.h"
 
 Vehicle::Vehicle(int x, int y, int width, int height){
@@ -32,4 +34,10 @@ void Vehicle::move(int dist){
     } else {
         this->yanchor += dist;
     }
+}
+
+std::string Vehicle::toString(){
+    std::ostringstream oss;
+    oss << "[" << this->xanchor << "_" << this->yanchor << "_" << this->width << "_" << this->height << "]";
+    return oss.str();
 }

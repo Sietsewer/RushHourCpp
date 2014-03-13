@@ -1,4 +1,6 @@
 #include <vector>
+#include <string>
+#include <sstream>
 #include "Vehicle.h"
 #include "Board.h"
 
@@ -21,6 +23,16 @@ void Board::addVehicle(Vehicle* v){
 
 bool Board::canMove(Vehicle* v, int dist){
     return (!this->intersect(v, dist) && this->checkBounds(v, dist));
+}
+
+std::string Board::toString(){
+    std::ostringstream oss;
+    oss << "[";
+    for (int i = 0; i < vehicles.size(); i++){
+        oss << vehicles[i]->toString();
+    }
+    oss << "]";
+    return oss.str();
 }
 
 //check if vehicle + move offset intersects with other vehicles

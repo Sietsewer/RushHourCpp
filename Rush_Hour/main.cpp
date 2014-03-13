@@ -40,6 +40,7 @@ int main(int argc, char** argv) {
     b->addVehicle(v2);
     std::string res = (b->canMove(v1, 0)) ? "true" : "false";
     cout << res << endl;
+    cout << b->toString() << endl;
     delete b; //may leak a bit of memory!
     delete v1;
     delete v2;

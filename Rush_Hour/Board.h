@@ -15,6 +15,7 @@ public:
     Board(int size);
     void addVehicle(Vehicle *v);
     bool canMove(Vehicle *v, int dist);
+    std::string toString();
     
 private:
     std::vector<Vehicle*> vehicles; //vector of pointers to vehicles

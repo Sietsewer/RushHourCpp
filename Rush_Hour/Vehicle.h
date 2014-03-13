@@ -23,6 +23,7 @@ public:
     void move(int dist);
     bool intersect(Vehicle *v);
     bool sameAnchors(Vehicle *v);
+    std::string toString();
 };
 
 #endif	/* VEHICLE_H */
