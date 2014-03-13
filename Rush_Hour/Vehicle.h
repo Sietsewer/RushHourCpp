@@ -22,6 +22,7 @@ public:
     void rotateVehicle();
     void move(int dist);
     bool intersect(Vehicle *v);
+    bool sameAnchors(Vehicle *v);
 };
 
 #endif	/* VEHICLE_H */

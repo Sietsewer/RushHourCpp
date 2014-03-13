@@ -10,7 +10,9 @@ void Board::addVehicle(Vehicle* v){
     this->vehicles.push_back(v);
 }
 
-//if (!intersect(v, dist) && checkBounds(v, dist)) { //vehicle can be moved }
+bool Board::canMove(Vehicle* v, int dist){
+    return (!this->intersect(v, dist) && this->checkBounds(v, dist));
+}
 
 //check if vehicle + move offset intersects with other vehicles
 bool Board::intersect(Vehicle* v, int dist){
@@ -30,7 +32,7 @@ bool Board::intersect(Vehicle* v, int dist){
             y1 += dist;
         }
         
-        if (x1 + w1 < x2 || x2 + w2 < x1 || y1 + h1 < y2 || y2 + h2 < y1){
+        if ((x1 + w1 < x2 || x2 + w2 < x1 || y1 + h1 < y2 || y2 + h2 < y1) && !v->sameAnchors(vehicles[i])){
             return true;
         }
     }
@@ -39,14 +41,9 @@ bool Board::intersect(Vehicle* v, int dist){
 
 //check if vehicle + move distance fits within board bounds
 bool Board::checkBounds(Vehicle* v, int dist){
-    int diff = 0;
     if (v->orientation == Vehicle::Horizontal) {
-        diff = v->xanchor + v->width - 1 + dist;
+        return v->xanchor + dist >= 0 && v->xanchor + dist + v->width <= this->boardsize;
     } else {
-        diff = v->yanchor + v->height - 1 + dist;
+        return v->yanchor + dist >= 0 && v->yanchor + dist + v->height <= this->boardsize;
     }
-    if (diff >= 0 && diff <= this->boardsize) {
-        return true;
-    }
-    return false;
 }

@@ -21,6 +21,10 @@ void Vehicle::setAnchors(int x, int y){
     this->yanchor = y;
 }
 
+bool Vehicle::sameAnchors(Vehicle* v){
+    return (this->xanchor == v->xanchor && this->yanchor == v->yanchor);
+}
+
 void Vehicle::move(int dist){
     //TODO: add bounds checking, have to ensure vehicle doesn't move off the board or into other vehicles
     if (this->orientation == Horizontal){

@@ -13,13 +13,16 @@ public:
     int boardsize;
     
     Board(int size);
-    bool intersect(Vehicle *v, int dist);
-    bool checkBounds(Vehicle *v, int dist);
+    void addVehicle(Vehicle *v);
+    bool canMove(Vehicle *v, int dist);
     
 private:
     std::vector<Vehicle*> vehicles; //vector of pointers to vehicles
     
-    void addVehicle(Vehicle *v);
+    bool intersect(Vehicle *v, int dist);
+    bool checkBounds(Vehicle *v, int dist);
+    
+    
 };
 
 #endif	/* BOARD_H */
