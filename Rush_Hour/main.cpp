@@ -7,6 +7,7 @@
 
 #include <cstdlib>
 //#include <SFML/Window.hpp>
+#include <iostream> //for console debugging
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
