@@ -12,6 +12,7 @@
 #include <SFML/Graphics.hpp>
 #include "Vehicle.h"
 #include "Board.h"
+#include "Button.h"
 
 using namespace std;
 
@@ -25,10 +26,15 @@ sf::Color backColor  = sf::Color::White;
 sf::RectangleShape sideBarOutline(sf::Vector2f(200.0f, 600.0f));
 sf::RectangleShape sideBarPanel1(sf::Vector2f(160.0f, 300.0f));
 sf::RectangleShape sideBarPanel2(sf::Vector2f(160.0f, 240.0f));
-sf::RectangleShape btnSolve(sf::Vector2f(120.0f, 40.0f));
+sf::RectangleShape rect_btn_Solve(sf::Vector2f(120.0f, 40.0f));
+sf::RectangleShape board_Rects[6][6];
 sf::Font font;
 sf::Text text;
 //Menu items end
+void btn_Solve_Click(){
+    cout << "Button clicky!" << endl;
+    //Stuff to do when you click the solve button
+}
 
 int main(int argc, char** argv) {
     
@@ -48,13 +54,28 @@ int main(int argc, char** argv) {
     sideBarOutline.setFillColor(themeColor);
     sideBarPanel1.setFillColor(backColor);
     sideBarPanel2.setFillColor(backColor);
-    btnSolve.setFillColor(themeColor);
 
     //  Positions
     sideBarOutline.setPosition(600.0f, 0.0f);
     sideBarPanel1.setPosition(620.0f, 20.0f);
     sideBarPanel2.setPosition(620.0f, 340.0f);
-    btnSolve.setPosition(640.0f, 360.0f);
+    rect_btn_Solve.setPosition(640.0f, 360.0f);
+    
+    //  Board loop
+    float xLocation = 10.0f;
+    float yLocation = 10.0f;
+    for(int i = 0; i < 6; i++){
+        for(int j = 0; j < 6; j++){
+            board_Rects [i] [j] = sf::RectangleShape(sf::Vector2f(80.0f, 80.0f));
+            board_Rects [i] [j].setFillColor(sf::Color(200,200,200));
+            board_Rects [i] [j].setPosition(10.0f + (i*100.0f), 10.0f + (j*100.0f));
+            xLocation+=100.0f;
+        }
+    }
+    
+    //  Buttons
+    Button btn_Solve(rect_btn_Solve, themeColor, sf::Color::Black, &window, &btn_Solve_Click);
+    
     //Menu items end
     while (window.isOpen())
     {
@@ -64,10 +85,21 @@ int main(int argc, char** argv) {
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+                btn_Solve.mouseDown();
+            } else {
+                btn_Solve.mouseUp();
+            }
         }
         
         window.clear(sf::Color::White);//BEGIN render list << --
         //Main board
+            for(int i = 0; i < 6; i++){
+        for(int j = 0; j < 6; j++){
+            window.draw(board_Rects [i] [j]);
+        }
+    }
                 //Here, AND NO FURTHER. (Else order will be fucked)
         //END main board
         
@@ -75,7 +107,7 @@ int main(int argc, char** argv) {
         window.draw(sideBarOutline);
         window.draw(sideBarPanel1);
         window.draw(sideBarPanel2);
-        window.draw(btnSolve);
+        window.draw(btn_Solve);
         window.draw(text);
         //END menu background
         
