@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Board.o \
+	${OBJECTDIR}/Button.o \
 	${OBJECTDIR}/Vehicle.o \
 	${OBJECTDIR}/main.o
 
@@ -68,6 +69,11 @@ ${OBJECTDIR}/Board.o: Board.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -DSFML_STATIC -I../SFML-2.1/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/Board.o Board.cpp
+
+${OBJECTDIR}/Button.o: Button.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -DSFML_STATIC -I../SFML-2.1/include -MMD -MP -MF $@.d -o ${OBJECTDIR}/Button.o Button.cpp
 
 ${OBJECTDIR}/Vehicle.o: Vehicle.cpp 
 	${MKDIR} -p ${OBJECTDIR}
