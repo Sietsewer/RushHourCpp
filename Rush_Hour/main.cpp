@@ -28,8 +28,6 @@ sf::RectangleShape sideBarPanel1(sf::Vector2f(160.0f, 300.0f));
 sf::RectangleShape sideBarPanel2(sf::Vector2f(160.0f, 240.0f));
 sf::RectangleShape rect_btn_Solve(sf::Vector2f(120.0f, 40.0f));
 sf::RectangleShape board_Rects[6][6];
-sf::Font font;
-sf::Text text;
 //Menu items end
 void btn_Solve_Click(){
     cout << "Button clicky!" << endl;
@@ -62,14 +60,11 @@ int main(int argc, char** argv) {
     rect_btn_Solve.setPosition(640.0f, 360.0f);
     
     //  Board loop
-    float xLocation = 10.0f;
-    float yLocation = 10.0f;
     for(int i = 0; i < 6; i++){
         for(int j = 0; j < 6; j++){
             board_Rects [i] [j] = sf::RectangleShape(sf::Vector2f(80.0f, 80.0f));
             board_Rects [i] [j].setFillColor(sf::Color(200,200,200));
             board_Rects [i] [j].setPosition(10.0f + (i*100.0f), 10.0f + (j*100.0f));
-            xLocation+=100.0f;
         }
     }
     
@@ -108,7 +103,6 @@ int main(int argc, char** argv) {
         window.draw(sideBarPanel1);
         window.draw(sideBarPanel2);
         window.draw(btn_Solve);
-        window.draw(text);
         //END menu background
         
         //Menu button
