@@ -1,4 +1,4 @@
-build/Debug/MinGW-Windows/Vehicle.o: Vehicle.cpp Vehicle.h \
+build/Debug/MinGW-Windows/Board.o: Board.cpp Board.h Vehicle.h \
  ../SFML-2.1/include/SFML/System.hpp ../SFML-2.1/include/SFML/Config.hpp \
  ../SFML-2.1/include/SFML/System/Clock.hpp \
  ../SFML-2.1/include/SFML/System/Export.hpp \
@@ -62,6 +62,8 @@ build/Debug/MinGW-Windows/Vehicle.o: Vehicle.cpp Vehicle.h \
  ../SFML-2.1/include/SFML/Graphics/ConvexShape.hpp \
  ../SFML-2.1/include/SFML/Graphics/Sprite.hpp \
  ../SFML-2.1/include/SFML/Graphics/Text.hpp
+
+Board.h:
 
 Vehicle.h:
 

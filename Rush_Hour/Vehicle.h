@@ -8,6 +8,11 @@
 #ifndef VEHICLE_H
 #define	VEHICLE_H
 
+#include <string>
+#include <sstream>
+#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
+
 using namespace sf;
 
 class Vehicle {

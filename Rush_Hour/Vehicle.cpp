@@ -1,7 +1,3 @@
-#include <string>
-#include <sstream>
-#include <SFML/System.hpp>
-#include <SFML/Graphics.hpp>
 #include "Vehicle.h"
 
 Vehicle::Vehicle(int x, int y, int width, int height){

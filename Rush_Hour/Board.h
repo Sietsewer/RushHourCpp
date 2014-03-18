@@ -8,6 +8,11 @@
 #ifndef BOARD_H
 #define	BOARD_H
 
+#include <vector>
+#include <string>
+#include <sstream>
+#include "Vehicle.h"
+
 class Board{
 public:
     int boardsize;
