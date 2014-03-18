@@ -8,6 +8,8 @@
 #ifndef VEHICLE_H
 #define	VEHICLE_H
 
+using namespace sf;
+
 class Vehicle {
 public:
     enum Orientation {Horizontal, Vertical};
@@ -15,9 +17,11 @@ public:
     int height;
     int xanchor;
     int yanchor;
+    sf::RectangleShape *rect;
     Orientation orientation;
     
     Vehicle(int x, int y, int width, int height);
+    ~Vehicle();
     void setAnchors(int x, int y);
     void rotateVehicle();
     void move(int dist);
