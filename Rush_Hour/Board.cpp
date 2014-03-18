@@ -78,3 +78,11 @@ Board::~Board(){
         this->vehicles.pop_back();
     }
 }
+
+void Board::clear(){
+    while (!this->vehicles.empty()){
+        delete this->vehicles.back();
+        this->vehicles.back() = NULL;
+        this->vehicles.pop_back();
+    }
+}

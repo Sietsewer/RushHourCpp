@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <string>
+#include <math.h>
 #include "Board.h"
 
 class Solver{
@@ -22,6 +23,8 @@ public:
     void solve();
     
 private:
+    std::vector<Board> getSuccessors(Board b);
+    int getCost(Board b, int dist);
 };
 
 #endif	/* SOLVER_H */

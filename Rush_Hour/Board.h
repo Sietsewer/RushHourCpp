@@ -23,6 +23,7 @@ public:
     bool canMove(Vehicle *v, int dist);
     std::vector<Vehicle*>* getVehicles();
     std::string toString();
+    void clear();
     
     ~Board();
     
