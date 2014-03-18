@@ -67,6 +67,10 @@ bool Board::checkBounds(Vehicle* v, int dist){
     }
 }
 
+std::vector<Vehicle*>* Board::getVehicles(){
+    return &this->vehicles;
+}
+
 Board::~Board(){
     while (!this->vehicles.empty()){
         delete this->vehicles.back();

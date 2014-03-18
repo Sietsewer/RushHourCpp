@@ -21,6 +21,7 @@ public:
     Board();
     void addVehicle(Vehicle *v);
     bool canMove(Vehicle *v, int dist);
+    std::vector<Vehicle*>* getVehicles();
     std::string toString();
     
     ~Board();
