@@ -4,6 +4,8 @@ Board::Board(int size){
     this->boardsize = size;
 }
 
+Board::Board(){}
+
 void Board::addVehicle(Vehicle* v){
     //disallow adding intersecting vehicles or vehicles out of bounds
     if (this->intersect(v, 0) || !this->checkBounds(v, 0)){

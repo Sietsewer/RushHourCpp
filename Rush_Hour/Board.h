@@ -18,6 +18,7 @@ public:
     int boardsize;
     
     Board(int size);
+    Board();
     void addVehicle(Vehicle *v);
     bool canMove(Vehicle *v, int dist);
     std::string toString();

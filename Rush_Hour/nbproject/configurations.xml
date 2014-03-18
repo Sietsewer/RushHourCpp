@@ -5,6 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>Board.h</itemPath>
+      <itemPath>Solver.h</itemPath>
       <itemPath>Vehicle.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -17,6 +18,7 @@
       <itemPath>Board.cpp</itemPath>
       <itemPath>Button.cpp</itemPath>
       <itemPath>Button.h</itemPath>
+      <itemPath>Solver.cpp</itemPath>
       <itemPath>Vehicle.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
@@ -69,6 +71,10 @@
       </item>
       <item path="Button.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Solver.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Solver.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Vehicle.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Vehicle.h" ex="false" tool="3" flavor2="0">
@@ -104,6 +110,10 @@
       <item path="Button.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Button.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Solver.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Solver.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Vehicle.cpp" ex="false" tool="1" flavor2="0">
       </item>
