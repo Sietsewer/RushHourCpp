@@ -8,10 +8,13 @@
 #ifndef SOLVER_H
 #define	SOLVER_H
 
+#include <iostream>
 #include <vector>
 #include <string>
 #include <math.h>
 #include "Board.h"
+
+using namespace std;
 
 class Solver{
 public:
@@ -24,7 +27,6 @@ public:
     
 private:
     std::vector<Board> getSuccessors(Board b);
-    int getCost(Board b, int dist);
 };
 
 #endif	/* SOLVER_H */

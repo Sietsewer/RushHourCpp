@@ -61,7 +61,8 @@ build/Debug/MinGW-Windows/main.o: main.cpp \
  ../SFML-2.1/include/SFML/Graphics/RectangleShape.hpp \
  ../SFML-2.1/include/SFML/Graphics/ConvexShape.hpp \
  ../SFML-2.1/include/SFML/Graphics/Sprite.hpp \
- ../SFML-2.1/include/SFML/Graphics/Text.hpp Vehicle.h Board.h Button.h
+ ../SFML-2.1/include/SFML/Graphics/Text.hpp Vehicle.h Board.h Button.h \
+ Solver.h
 
 ../SFML-2.1/include/SFML/System.hpp:
 
@@ -196,3 +197,5 @@ Vehicle.h:
 Board.h:
 
 Button.h:
+
+Solver.h:

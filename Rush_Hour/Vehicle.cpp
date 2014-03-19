@@ -11,6 +11,8 @@ Vehicle::Vehicle(int x, int y, int width, int height){
     this->orientation = width > height ? Horizontal : Vertical;
 }
 
+Vehicle::Vehicle(){}
+
 Vehicle::~Vehicle(){
     delete this->rect;
     this->rect = NULL;
@@ -19,7 +21,7 @@ Vehicle::~Vehicle(){
 void Vehicle::rotateVehicle(){
     int temp = this->width;
     this->width = this->height;
-    this->height = this->width;
+    this->height = temp;
     
     delete this->rect;
     this->rect = NULL;
@@ -39,7 +41,6 @@ bool Vehicle::sameAnchors(Vehicle* v){
 }
 
 void Vehicle::move(int dist){
-    //TODO: add bounds checking, have to ensure vehicle doesn't move off the board or into other vehicles
     if (this->orientation == Horizontal){
         this->xanchor += dist;
     } else {
@@ -51,4 +52,8 @@ std::string Vehicle::toString(){
     std::ostringstream oss;
     oss << "[" << this->xanchor << "," << this->yanchor << "," << this->width << "," << this->height << "]";
     return oss.str();
+}
+
+bool Vehicle::isSame(Vehicle *v){
+    return (this->xanchor == v->xanchor && this->yanchor == v->yanchor && this->width == v->width && this->height == v->height);
 }

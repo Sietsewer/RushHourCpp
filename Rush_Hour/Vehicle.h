@@ -26,6 +26,7 @@ public:
     Orientation orientation;
     
     Vehicle(int x, int y, int width, int height);
+    Vehicle();
     ~Vehicle();
     void setAnchors(int x, int y);
     void rotateVehicle();
@@ -33,6 +34,7 @@ public:
     bool intersect(Vehicle *v);
     bool sameAnchors(Vehicle *v);
     std::string toString();
+    bool isSame(Vehicle *v);
 };
 
 #endif	/* VEHICLE_H */

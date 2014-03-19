@@ -13,6 +13,7 @@
 #include "Vehicle.h"
 #include "Board.h"
 #include "Button.h"
+#include "Solver.h"
 
 using namespace std;
 
@@ -41,10 +42,14 @@ int main(int argc, char** argv) {
 
     //testing shit pls don't touch kthxbye
     Board *b = new Board(6);
-    b->addVehicle(new Vehicle(0, 0, 1, 3));
+    //b->addVehicle(new Vehicle(1, 0, 1, 3));
     b->addVehicle(new Vehicle(1, 0, 2, 1));
+    b->addVehicle(new Vehicle(1, 2, 2, 1));
     cout << b->toString() << endl;
-
+    
+    Solver *s = new Solver(b);
+    //s->solve();
+    
 
     sf::RenderWindow window;
     window.create(sf::VideoMode(800, 600), "Rush Hour");
@@ -118,7 +123,9 @@ int main(int argc, char** argv) {
         window.display(); //END render list << --
     }
     delete b; //memory leak fixed!
+    delete s;
     b = NULL; //for safety
+    s = NULL;
     //end test
     return 0;
 }

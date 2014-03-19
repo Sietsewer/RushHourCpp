@@ -2,6 +2,7 @@
 
 Board::Board(int size){
     this->boardsize = size;
+    this->cost = 0;
 }
 
 Board::Board(){}
@@ -36,22 +37,24 @@ std::string Board::toString(){
 //check if vehicle + move offset intersects with other vehicles
 bool Board::intersect(Vehicle* v, int dist){
     for (int i = 0; i < vehicles.size(); i++){
-        int x1 = v->xanchor;
-        int x2 = vehicles[i]->xanchor;
-        int y1 = v->yanchor;
-        int y2 = vehicles[i]->yanchor;
-        int w1 = v->width;
-        int w2 = vehicles[i]->width;
-        int h1 = v->height;
-        int h2 = vehicles[i]->height;
+        int p1x = v->xanchor;
+        int p1y = v->yanchor;
+        int p2x = v->xanchor + v->width;
+        int p2y = v->yanchor + v->height;
+        int p3x = vehicles[i]->xanchor;
+        int p3y = vehicles[i]->yanchor;
+        int p4x = vehicles[i]->xanchor + vehicles[i]->width;
+        int p4y = vehicles[i]->yanchor + vehicles[i]->height;
         
         if(v->orientation == Vehicle::Horizontal){
-            x1 += dist;
+            p1x += dist;
+            p2x += dist;
         } else {
-            y1 += dist;
+            p1y += dist;
+            p2y += dist;
         }
         
-        if ((x1 + w1 < x2 || x2 + w2 < x1 || y1 + h1 < y2 || y2 + h2 < y1) && !v->sameAnchors(vehicles[i])){
+        if (!(p1y <= p3y || p1y >= p4y || p2x <= p3x || p1x >= p4x ) && !(v->isSame(vehicles[i]))){
             return true;
         }
     }
@@ -84,5 +87,34 @@ void Board::clear(){
         delete this->vehicles.back();
         this->vehicles.back() = NULL;
         this->vehicles.pop_back();
+    }
+}
+
+void Board::setCost(int c){
+    this->cost = cost;
+}
+
+int Board::getEstimate(){
+    Vehicle *v = new Vehicle(0, 2, 6, 1);
+    int counts = -1;
+    for (int i = 0; i < this->vehicles.size(); i++){
+        counts += intersect(vehicles[i], 0) ? 1 : 0;
+    }
+    delete v;
+    return counts;
+}
+
+int Board::getFValue(){
+    return getEstimate() + this->cost;
+}
+
+void Board::moveVehicle(int index, int dist){
+    this->vehicles.at(index)->move(dist);
+}
+
+void Board::copyVehicles(std::vector<Vehicle*> v){
+    vehicles.clear();
+    for (int i = 0; i < v.size(); i++){
+        addVehicle(new Vehicle(v[i]->xanchor, v[i]->yanchor, v[i]->width, v[i]->height));
     }
 }

@@ -16,6 +16,7 @@
 class Board{
 public:
     int boardsize;
+    int cost;
     
     Board(int size);
     Board();
@@ -24,6 +25,11 @@ public:
     std::vector<Vehicle*>* getVehicles();
     std::string toString();
     void clear();
+    void setCost(int c);
+    int getEstimate();
+    int getFValue();
+    void moveVehicle(int index, int dist);
+    void copyVehicles(std::vector<Vehicle*> v);
     
     ~Board();
     
