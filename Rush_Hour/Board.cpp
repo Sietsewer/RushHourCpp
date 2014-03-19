@@ -5,6 +5,14 @@ Board::Board(int size){
     this->cost = 0;
 }
 
+Board::Board(int size, std::vector<Vehicle*> v){
+    this->boardsize = size;
+    this->cost = 0;
+    for (int i = 0; i < v.size(); i++){
+        this->vehicles.push_back(new Vehicle(v[i]->xanchor, v[i]->yanchor, v[i]->width, v[i]->height));
+    }
+}
+
 Board::Board(){}
 
 void Board::addVehicle(Vehicle* v){
@@ -95,13 +103,24 @@ void Board::setCost(int c){
 }
 
 int Board::getEstimate(){
-    Vehicle *v = new Vehicle(0, 2, 6, 1);
-    int counts = -1;
+    //find red car y-anchor
+    Vehicle *rc; //pointer to red car
     for (int i = 0; i < this->vehicles.size(); i++){
-        counts += intersect(vehicles[i], 0) ? 1 : 0;
+        //red car is the only possible vehicle that has a x-anchor of 2 and a horizontal orientation
+        if (vehicles[i]->yanchor == 2 && vehicles[i]->orientation == Vehicle::Horizontal){
+            rc = vehicles[i]; //red car found
+        }
     }
-    delete v;
-    return counts;
+     
+    int counts = 0;
+    //count how many vehicles are blocking the exit, use this to make an estimate
+    for (int i = 0; i < this->boardsize; i ++){
+        Vehicle *v = new Vehicle(rc->xanchor + i, 2, 1, 1); //1*1 "vehicle" to test intersection
+        v->orientation = Vehicle::Horizontal; //dirty hax to force orientation of 1*1 "vehicle"
+        counts += intersect(v, 0) ? 1 : 0;
+        delete v; //cleanup
+    }
+    return counts; //maybe multiply this by some factor? gotta look at this again once I fix getSuccessors...
 }
 
 int Board::getFValue(){
@@ -112,9 +131,11 @@ void Board::moveVehicle(int index, int dist){
     this->vehicles.at(index)->move(dist);
 }
 
-void Board::copyVehicles(std::vector<Vehicle*> v){
+void Board::setVehicles(std::vector<Vehicle*> v){
     vehicles.clear();
     for (int i = 0; i < v.size(); i++){
-        addVehicle(new Vehicle(v[i]->xanchor, v[i]->yanchor, v[i]->width, v[i]->height));
+        //uncomment the following line to break shit:
+        //this->vehicles.push_back(new Vehicle(v[i]->xanchor, v[i]->yanchor, v[i]->width, v[i]->height));
+        //I MEAN SERIOUSLY WHAT THE HELL, THIS SHOULD TOTALLY WORK
     }
 }

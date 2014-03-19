@@ -48,7 +48,10 @@ int main(int argc, char** argv) {
     cout << b->toString() << endl;
     
     Solver *s = new Solver(b);
-    //s->solve();
+    //s->solve(); //Don't use this one yet, please. Shit just fucking breaks right now
+    //see Solver::getSuccessors() for a little more detail
+    //things specifically go wrong at Board line 138, still don't know what's causing it...
+    //also move this bit to btn_Solve_Click() once it actually works
     
 
     sf::RenderWindow window;

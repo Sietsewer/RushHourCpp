@@ -83,18 +83,23 @@ void Solver::solve() {
 std::vector<Board> Solver::getSuccessors(Board b) {
     std::vector<Board> results;
     std::vector<Vehicle*> vehicles = *b.getVehicles();
-    //create list of possible moves for each vehicle on the board
+    //create vector of states of possible moves for each vehicle on the board
+    //NOTE: this function will break when called BUT it does identify all legal successive moves from the current board state.
+    //the problem is actually cloning the vehicles and attaching them to a successor board state, see Board.cpp line 138
     for (int i = 0; i < vehicles.size(); i++) {
         for (int dist = -b.boardsize; dist <= b.boardsize; dist++) {
-            cout << vehicles[i]->toString() << " " << dist <<endl;
+            cout << vehicles[i]->toString() << " " << dist; //testing and shit
             if (dist != 0 && b.canMove(vehicles[i], dist)) {
                 Board *temp = new Board(6);
-                //temp->copyVehicles(vehicles);???
+                temp->setVehicles(vehicles); //go in here for the part where shit goes wrong
+                //temp->moveVehicle(i, dist);
                 temp->setCost(b.boardsize - abs(dist)); //moving a greater distance in one move means lower cost
                 results.push_back(*temp);
                 delete temp;
-                cout << "^ added" << endl;
+                cout << " added";
+                //note that the actual board state does not get added right now which is why it breaks even without setVehicles()
             }
+            cout << endl;
         }
     }
     

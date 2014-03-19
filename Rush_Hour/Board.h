@@ -8,6 +8,7 @@
 #ifndef BOARD_H
 #define	BOARD_H
 
+#include <iostream>
 #include <vector>
 #include <string>
 #include <sstream>
@@ -19,6 +20,7 @@ public:
     int cost;
     
     Board(int size);
+    Board(int size, std::vector<Vehicle*> v);
     Board();
     void addVehicle(Vehicle *v);
     bool canMove(Vehicle *v, int dist);
@@ -29,7 +31,7 @@ public:
     int getEstimate();
     int getFValue();
     void moveVehicle(int index, int dist);
-    void copyVehicles(std::vector<Vehicle*> v);
+    void setVehicles(std::vector<Vehicle*> v);
     
     ~Board();
     
