@@ -13,9 +13,9 @@ void Solver::solve() {
         int max = 65536;
         std::vector<Board> temp;
         for (int i = 0; i < openstack.size(); i++){
-            if (openstack[i].cost <= max || openstack[i].cost < current.cost){
+            if (openstack[i].cost <= max || openstack[i].getFValue() < current.getFValue()){
                 current = openstack[i];
-                //temp.push_back(openstack[i]);
+                closedstack.push_back(current);
             } else {
                 temp.push_back(openstack[i]);
             }

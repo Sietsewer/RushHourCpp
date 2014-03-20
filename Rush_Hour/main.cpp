@@ -21,6 +21,9 @@ using namespace std;
 /*
  * 
  */
+Solver *s;
+Board *b;
+
 sf::Color themeColor = sf::Color::Green;
 sf::Color backColor = sf::Color::White;
 
@@ -49,6 +52,7 @@ ColorGiver colors = ColorGiver();
 void btn_Solve_Click() {
     cout << "Button clicky!" << endl;
     //Stuff to do when you click the solve button
+    s = new Solver(b);
     s->solve(); //Don't use this one yet, please. Shit just fucking breaks right now
     //see Solver::getSuccessors() for a little more detail
     //things specifically go wrong at Board line 138, still don't know what's causing it...
@@ -78,15 +82,14 @@ void vehicle_3_click() {
 int main(int argc, char** argv) {
 
     //testing shit pls don't touch kthxbye
-    Board *b = new Board(6);
+    b = new Board(6);
     //b->addVehicle(new Vehicle(1, 0, 1, 3));
     b->addVehicle(new Vehicle(1, 0, 2, 1, colors.getColor()));
     b->addVehicle(new Vehicle(1, 2, 2, 1, colors.getColor()));
+    //b->addVehicle(new Vehicle(0, 2, 2, 1, colors.getColor()));
     cout << b->toString() << endl;
     
     //colors = new ColorGiver();
-
-    Solver *s = new Solver(b);
 
 
     sf::RenderWindow window;
