@@ -83,19 +83,17 @@ std::vector<Vehicle*>* Board::getVehicles(){
 }
 
 Board::~Board(){
-    while (!this->vehicles.empty()){
-        delete this->vehicles.back();
-        this->vehicles.back() = NULL;
-        this->vehicles.pop_back();
+    for (int i = 0; i < vehicles.size(); i++){
+        //delete this->vehicles[i];
     }
+    this->vehicles.clear();
 }
 
 void Board::clear(){
-    while (!this->vehicles.empty()){
-        delete this->vehicles.back();
-        this->vehicles.back() = NULL;
-        this->vehicles.pop_back();
+    for (int i = 0; i < vehicles.size(); i++){
+        delete this->vehicles[i];
     }
+    this->vehicles.clear();
 }
 
 void Board::setCost(int c){
@@ -135,7 +133,13 @@ void Board::setVehicles(std::vector<Vehicle*> v){
     vehicles.clear();
     for (int i = 0; i < v.size(); i++){
         //uncomment the following line to break shit:
-        //this->vehicles.push_back(new Vehicle(v[i]->xanchor, v[i]->yanchor, v[i]->width, v[i]->height));
+        //Vehicle veh = *v[i];
+        int x = v[i]->xanchor;
+        int y = v[i]->yanchor;
+        int w = v[i]->width;
+        int h = v[i]->height;
+        Vehicle *v = new Vehicle(x, y, w, h);
+        this->vehicles.push_back(v);
         //I MEAN SERIOUSLY WHAT THE HELL, THIS SHOULD TOTALLY WORK
     }
 }

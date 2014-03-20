@@ -15,6 +15,7 @@ void Solver::solve() {
         for (int i = 0; i < openstack.size(); i++){
             if (openstack[i].cost <= max || openstack[i].cost < current.cost){
                 current = openstack[i];
+                //temp.push_back(openstack[i]);
             } else {
                 temp.push_back(openstack[i]);
             }
@@ -32,6 +33,8 @@ void Solver::solve() {
             //if node_successor is on the OPEN list but the existing one is as good or better then discard this successor and continue
             //if node_successor is on the CLOSED list but the existing one is as good or better then discard this successor and continue
             std::vector<Board> res;
+            cout << openstack.size() << endl;
+            cout << closedstack.size() << endl;
             for (int j = 0; j < openstack.size(); j++) {
                 if (successors[i].toString() == openstack[j].toString() && successors[i].cost >= openstack[j].cost) {
                     res.push_back(openstack[j]);
@@ -49,7 +52,6 @@ void Solver::solve() {
             }
 
             if (res.size() > 0) {
-                cout << "sup!" << endl;
                 Board newcanidate;
                 for (int j = 0; j < res.size(); j++){
                     if (res[j].cost <= max){

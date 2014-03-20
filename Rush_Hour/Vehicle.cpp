@@ -28,8 +28,8 @@ Vehicle::Vehicle(int x, int y, int width, int height){
 Vehicle::Vehicle(){}
 
 Vehicle::~Vehicle(){
-    delete this->rect;
-    this->rect = NULL;
+    //delete this->rect;
+    //this->rect = NULL;
 }
 
 void Vehicle::rotateVehicle(){
