@@ -10,6 +10,8 @@ Vehicle::Vehicle(int x, int y, int width, int height, sf::Color color){
     
     this->color = color;
     this->rect->setFillColor(this->color);
+    this->rect->setOutlineColor(sf::Color::Black);
+    this->rect->setOutlineThickness(-2.0f);
     
     this->orientation = width > height ? Horizontal : Vertical;
 }

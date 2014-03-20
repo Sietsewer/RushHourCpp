@@ -7,13 +7,14 @@
 
 #include <cstdlib>
 //#include <SFML/Window.hpp>
-#include <iostream> //for console debugging
+#include <iostream> //for console debugging, because console is the shit.
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include "Vehicle.h"
 #include "Board.h"
 #include "Button.h"
 #include "Solver.h"
+#include "ColorGiver.h"
 
 using namespace std;
 
@@ -29,6 +30,7 @@ sf::RectangleShape sideBarPanel1(sf::Vector2f(160.0f, 300.0f));
 sf::RectangleShape sideBarPanel2(sf::Vector2f(160.0f, 240.0f));
 sf::RectangleShape rect_btn_Solve(sf::Vector2f(120.0f, 40.0f));
 sf::RectangleShape rect_btn_vehicle_2(sf::Vector2f(120.0f, 40.0f));
+sf::RectangleShape rect_btn_vehicle_3(sf::Vector2f(120.0f, 40.0f));
 sf::RectangleShape board_Rects[6][6];
 //Menu items end
 
@@ -39,10 +41,18 @@ std::vector<Vehicle*>* vehiclePointers;
 sf::Vector2f mouseLocation;
 int dragWidth;
 int dragHeight;
+bool rotateDownBlock = false;
+sf::Color newColor = sf::Color::Yellow;
+
+ColorGiver colors = ColorGiver();
 
 void btn_Solve_Click() {
     cout << "Button clicky!" << endl;
     //Stuff to do when you click the solve button
+    s->solve(); //Don't use this one yet, please. Shit just fucking breaks right now
+    //see Solver::getSuccessors() for a little more detail
+    //things specifically go wrong at Board line 138, still don't know what's causing it...
+    //also move this bit to btn_Solve_Click() once it actually works
 }
 
 void vehicle_2_click() {
@@ -50,10 +60,19 @@ void vehicle_2_click() {
     dragWidth = 2;
     dragHeight = 1;
     draggingRect.setSize(sf::Vector2f(dragWidth * 100.0f, dragHeight * 100.0f));
-    draggingRect.setFillColor(sf::Color::Red);
+    draggingRect.setFillColor(colors.getColor());
     draggingRect.setOrigin(50.0f, 50.0f);
     draggingRect.setPosition(mouseLocation);
+}
 
+void vehicle_3_click() {
+    dragging = true;
+    dragWidth = 3;
+    dragHeight = 1;
+    draggingRect.setSize(sf::Vector2f(dragWidth * 100.0f, dragHeight * 100.0f));
+    draggingRect.setFillColor(colors.getColor());
+    draggingRect.setOrigin(50.0f, 50.0f);
+    draggingRect.setPosition(mouseLocation);
 }
 
 int main(int argc, char** argv) {
@@ -61,15 +80,13 @@ int main(int argc, char** argv) {
     //testing shit pls don't touch kthxbye
     Board *b = new Board(6);
     //b->addVehicle(new Vehicle(1, 0, 1, 3));
-    b->addVehicle(new Vehicle(1, 0, 2, 1, sf::Color::Blue));
-    b->addVehicle(new Vehicle(1, 2, 2, 1, sf::Color::Yellow));
+    b->addVehicle(new Vehicle(1, 0, 2, 1, colors.getColor()));
+    b->addVehicle(new Vehicle(1, 2, 2, 1, colors.getColor()));
     cout << b->toString() << endl;
+    
+    //colors = new ColorGiver();
 
     Solver *s = new Solver(b);
-    //s->solve(); //Don't use this one yet, please. Shit just fucking breaks right now
-    //see Solver::getSuccessors() for a little more detail
-    //things specifically go wrong at Board line 138, still don't know what's causing it...
-    //also move this bit to btn_Solve_Click() once it actually works
 
 
     sf::RenderWindow window;
@@ -81,6 +98,7 @@ int main(int argc, char** argv) {
     sideBarPanel2.setFillColor(backColor);
     rect_btn_Solve.setFillColor(themeColor);
     rect_btn_vehicle_2.setFillColor(themeColor);
+    rect_btn_vehicle_3.setFillColor(themeColor);
 
     //  Positions
     sideBarOutline.setPosition(600.0f, 0.0f);
@@ -88,6 +106,7 @@ int main(int argc, char** argv) {
     sideBarPanel2.setPosition(620.0f, 340.0f);
     rect_btn_Solve.setPosition(640.0f, 360.0f);
     rect_btn_vehicle_2.setPosition(640.0f, 40.0f);
+    rect_btn_vehicle_3.setPosition(640.0f, 100.0f);
 
     //  Board loop
     for (int i = 0; i < 6; i++) {
@@ -101,6 +120,7 @@ int main(int argc, char** argv) {
     //  Buttons
     Button btn_Solve(rect_btn_Solve, themeColor, sf::Color::Black, &window, &btn_Solve_Click);
     Button btn_vehicle_2(rect_btn_vehicle_2, themeColor, sf::Color::Black, &window, &vehicle_2_click);
+    Button btn_vehicle_3(rect_btn_vehicle_3, themeColor, sf::Color::Black, &window, &vehicle_3_click);
 
     //Menu items end
     while (window.isOpen()) {
@@ -109,37 +129,40 @@ int main(int argc, char** argv) {
 
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
-
                 window.close();
             }
 
             if (dragging) {
                 draggingRect.setPosition(mouseLocation);
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Right)&&~rotateDownBlock) {
                     int temp = dragWidth;
                     dragWidth = dragHeight;
                     dragHeight = temp;
 
                     draggingRect.setSize(sf::Vector2f(dragWidth * 100.0f, dragHeight * 100.0f));
-                    draggingRect.setFillColor(sf::Color::Red);
                     draggingRect.setOrigin(50.0f, 50.0f);
                     draggingRect.setPosition(mouseLocation);
+                    rotateDownBlock = true;
+                } else {
+                    rotateDownBlock = false;
                 }
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                     dragging = false;
-                    if ((mouseLocation.x > 0.0f && mouseLocation.x < 600.0f)&&(mouseLocation.y > 0.0f && mouseLocation.y < 600.0f)) {
+                    if ((mouseLocation.x > 0.0f && mouseLocation.x <= 600.0f)&&(mouseLocation.y > 0.0f && mouseLocation.y <= 600.0f)) {
                         b->addVehicle(new Vehicle((int) (mouseLocation.x / 100.0f), (int) (mouseLocation.y / 100.0f), dragWidth, dragHeight, draggingRect.getFillColor()));
                     }
                 }
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+                /*if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
                     dragging = false;
-                }
+                }*/
             } else {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                     btn_vehicle_2.mouseDown();
+                    btn_vehicle_3.mouseDown();
                     btn_Solve.mouseDown();
                 } else {
                     btn_vehicle_2.mouseUp();
+                    btn_vehicle_3.mouseUp();
                     btn_Solve.mouseUp();
                 }
             }
@@ -165,6 +188,7 @@ int main(int argc, char** argv) {
         window.draw(sideBarPanel2);
         window.draw(btn_Solve);
         window.draw(btn_vehicle_2);
+        window.draw(btn_vehicle_3);
         if (dragging) {
             window.draw(draggingRect);
         }
