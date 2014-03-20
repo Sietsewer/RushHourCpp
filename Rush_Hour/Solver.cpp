@@ -26,26 +26,30 @@ void Solver::solve() {
         }
         
         std::vector<Board> successors = getSuccessors(current); //get possible next moves
-
+        
         for (int i = 0; i < successors.size(); i++) {
             successors[i].cost += current.cost;
-
             //if node_successor is on the OPEN list but the existing one is as good or better then discard this successor and continue
             //if node_successor is on the CLOSED list but the existing one is as good or better then discard this successor and continue
             std::vector<Board> res;
             for (int j = 0; j < openstack.size(); j++) {
-                if (successors[i].toString() == openstack[j].toString() && successors[i].cost <= openstack[j].cost) {
+                if (successors[i].toString() == openstack[j].toString() && successors[i].cost >= openstack[j].cost) {
                     res.push_back(openstack[j]);
+                } else {
+                    res.push_back(successors[i]);
                 }
             }
 
             for (int j = 0; j < closedstack.size(); j++) {
-                if (successors[i].toString() == closedstack[j].toString() && successors[i].cost <= closedstack[j].cost) {
+                if (successors[i].toString() == closedstack[j].toString() && successors[i].cost >= closedstack[j].cost) {
                     res.push_back(closedstack[j]);
+                } else {
+                    res.push_back(successors[i]);
                 }
             }
 
             if (res.size() > 0) {
+                cout << "sup!" << endl;
                 Board newcanidate;
                 for (int j = 0; j < res.size(); j++){
                     if (res[j].cost <= max){
@@ -88,19 +92,18 @@ std::vector<Board> Solver::getSuccessors(Board b) {
     //the problem is actually cloning the vehicles and attaching them to a successor board state, see Board.cpp line 138
     for (int i = 0; i < vehicles.size(); i++) {
         for (int dist = -b.boardsize; dist <= b.boardsize; dist++) {
-            cout << vehicles[i]->toString() << " " << dist; //testing and shit
-            if (dist != 0 && b.canMove(vehicles[i], dist)) {
-                Board *temp = new Board(6);
-                temp->setVehicles(vehicles); //go in here for the part where shit goes wrong
-                //temp->moveVehicle(i, dist);
-                temp->setCost(b.boardsize - abs(dist)); //moving a greater distance in one move means lower cost
-                results.push_back(*temp);
-                delete temp;
-                cout << " added";
-                //note that the actual board state does not get added right now which is why it breaks even without setVehicles()
+            if (dist != 0 && b.canMove(vehicles[i], dist)){
+                Board temp = Board(6);
+                temp.setVehicles(*b.getVehicles());
+                temp.moveVehicle(i, dist);
+                results.push_back(temp);
             }
-            cout << endl;
         }
+    }
+    
+    cout << "new successors: " << endl;
+    for (int i = 0; i < results.size(); i++){
+        cout << results[i].toString() << endl;
     }
     
     return results;
