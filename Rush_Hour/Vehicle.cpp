@@ -14,6 +14,17 @@ Vehicle::Vehicle(int x, int y, int width, int height, sf::Color color){
     this->orientation = width > height ? Horizontal : Vertical;
 }
 
+Vehicle::Vehicle(int x, int y, int width, int height){
+    this->width = width;
+    this->height = height;
+    this->setAnchors(x, y);
+    
+    this->rect = new sf::RectangleShape(sf::Vector2f(width*100.0f, height*100.0f));
+    this->rect->setPosition(x*100.0f, y*100.0f);
+    
+    this->orientation = width > height ? Horizontal : Vertical;
+}
+
 Vehicle::Vehicle(){}
 
 Vehicle::~Vehicle(){

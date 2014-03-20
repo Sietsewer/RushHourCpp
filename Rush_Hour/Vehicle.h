@@ -27,6 +27,7 @@ public:
     Orientation orientation;
     
     Vehicle(int x, int y, int width, int height, sf::Color color);
+    Vehicle(int x, int y, int width, int height);
     Vehicle();
     ~Vehicle();
     void setAnchors(int x, int y);
