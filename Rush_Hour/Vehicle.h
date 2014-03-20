@@ -23,9 +23,10 @@ public:
     int xanchor;
     int yanchor;
     sf::RectangleShape *rect;
+    sf::Color color;
     Orientation orientation;
     
-    Vehicle(int x, int y, int width, int height);
+    Vehicle(int x, int y, int width, int height, sf::Color color);
     Vehicle();
     ~Vehicle();
     void setAnchors(int x, int y);

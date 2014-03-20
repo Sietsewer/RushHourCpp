@@ -1,12 +1,15 @@
 #include "Vehicle.h"
 
-Vehicle::Vehicle(int x, int y, int width, int height){
+Vehicle::Vehicle(int x, int y, int width, int height, sf::Color color){
     this->width = width;
     this->height = height;
     this->setAnchors(x, y);
     
-    this->rect = new sf::RectangleShape(sf::Vector2f(width, height));
-    this->rect->setPosition(x, y);
+    this->rect = new sf::RectangleShape(sf::Vector2f(width*100.0f, height*100.0f));
+    this->rect->setPosition(x*100.0f, y*100.0f);
+    
+    this->color = color;
+    this->rect->setFillColor(this->color);
     
     this->orientation = width > height ? Horizontal : Vertical;
 }
@@ -25,8 +28,9 @@ void Vehicle::rotateVehicle(){
     
     delete this->rect;
     this->rect = NULL;
-    this->rect = new sf::RectangleShape(sf::Vector2f(width, height));
-    this->rect->setPosition(this->xanchor, this->yanchor);
+    this->rect = new sf::RectangleShape(sf::Vector2f(width*100.0f, height*100.0f));
+    this->rect->setPosition(this->xanchor*100.0f, this->yanchor*100.0f);
+    this->rect->setFillColor(this->color);
     
     this->orientation = this->width > this->height ? Horizontal : Vertical;
 }

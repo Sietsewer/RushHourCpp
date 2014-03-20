@@ -9,7 +9,7 @@ Board::Board(int size, std::vector<Vehicle*> v){
     this->boardsize = size;
     this->cost = 0;
     for (int i = 0; i < v.size(); i++){
-        this->vehicles.push_back(new Vehicle(v[i]->xanchor, v[i]->yanchor, v[i]->width, v[i]->height));
+        this->vehicles.push_back(new Vehicle(v[i]->xanchor, v[i]->yanchor, v[i]->width, v[i]->height, v[i]->color));
     }
 }
 
@@ -115,7 +115,7 @@ int Board::getEstimate(){
     int counts = 0;
     //count how many vehicles are blocking the exit, use this to make an estimate
     for (int i = 0; i < this->boardsize; i ++){
-        Vehicle *v = new Vehicle(rc->xanchor + i, 2, 1, 1); //1*1 "vehicle" to test intersection
+        Vehicle *v = new Vehicle(rc->xanchor + i, 2, 1, 1, sf::Color::Black); //1*1 "vehicle" to test intersection
         v->orientation = Vehicle::Horizontal; //dirty hax to force orientation of 1*1 "vehicle"
         counts += intersect(v, 0) ? 1 : 0;
         delete v; //cleanup

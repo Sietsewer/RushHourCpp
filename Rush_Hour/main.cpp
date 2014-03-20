@@ -43,8 +43,8 @@ int main(int argc, char** argv) {
     //testing shit pls don't touch kthxbye
     Board *b = new Board(6);
     //b->addVehicle(new Vehicle(1, 0, 1, 3));
-    b->addVehicle(new Vehicle(1, 0, 2, 1));
-    b->addVehicle(new Vehicle(1, 2, 2, 1));
+    b->addVehicle(new Vehicle(1, 0, 2, 1, sf::Color::Blue));
+    b->addVehicle(new Vehicle(1, 2, 2, 1, sf::Color::Yellow));
     cout << b->toString() << endl;
     
     Solver *s = new Solver(b);
