@@ -22,6 +22,7 @@ public:
     Board(int size);
     Board(int size, std::vector<Vehicle*> v);
     Board();
+    Vehicle takeVehicle(int xpos, int ypos);
     void addVehicle(Vehicle *v);
     bool canMove(Vehicle *v, int dist);
     std::vector<Vehicle*>* getVehicles();
