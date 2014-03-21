@@ -32,7 +32,7 @@ Vehicle Board::takeVehicle(int xpos, int ypos){
     std::vector<Vehicle*> temp;
     Vehicle toreturn;
     for (int i = 0; i < vehicles.size(); i++){
-        if (vehicles[i]->xanchor == xpos && vehicles[i]->yanchor == ypos){
+        if ((vehicles[i]->xanchor == xpos) && (vehicles[i]->yanchor == ypos)){
             toreturn = *vehicles[i];
         } else {
             temp.push_back(vehicles[i]);

@@ -88,7 +88,7 @@ int main(int argc, char** argv) {
     b->addVehicle(new Vehicle(1, 2, 2, 1, colors.getColor()));
     //b->addVehicle(new Vehicle(0, 2, 2, 1, colors.getColor()));
     cout << b->toString() << endl;
-    
+
     //colors = new ColorGiver();
 
 
@@ -163,6 +163,17 @@ int main(int argc, char** argv) {
                     btn_vehicle_2.mouseDown();
                     btn_vehicle_3.mouseDown();
                     btn_Solve.mouseDown();
+                    if ((mouseLocation.x > 0.0f && mouseLocation.x <= 600.0f)&&(mouseLocation.y > 0.0f && mouseLocation.y <= 600.0f)) {
+                        Vehicle t = b->takeVehicle((int) mouseLocation.x / 100.0f, (int) mouseLocation.y / 100.0f);
+                        dragging = true;
+                        dragWidth = t.width;
+                        dragHeight = t.height;
+                        draggingRect.setSize(sf::Vector2f(dragWidth * 100.0f, dragHeight * 100.0f));
+                        draggingRect.setFillColor(t.color);
+                        draggingRect.setOrigin(50.0f, 50.0f);
+                        draggingRect.setPosition(mouseLocation);
+                    }
+
                 } else {
                     btn_vehicle_2.mouseUp();
                     btn_vehicle_3.mouseUp();
