@@ -32,7 +32,7 @@ void Solver::solve() {
     
     while (!(current.toString().find(goal) != std::string::npos)){
     //loop starts here.
-        unsigned int max = 2147483648; // 2^31
+        unsigned int max = 65536; // 2^31
         for (int i = 0; i < openstack.size(); i++) {
             if (openstack[i].getFValue() <= current.getFValue()) { //find board on open stack with lowest F cost
                 current = openstack[i];
@@ -67,10 +67,15 @@ void Solver::solve() {
             //state already visited, ignore
         }
     }
-    cout << closedstack.size() << endl;
-    cout << "Done. Moves: " << endl;
-    for (int i = 0; i < closedstack.size(); i++){
-        cout << closedstack[i].toString() << closedstack[i].cost << endl;
+
+    cout << "Checked " << closedstack.size() << " states. Moves: " << endl;
+    while (current.parent != ""){
+        cout << current.toString() << endl;
+        for (int i = 0; i < closedstack.size(); i++){
+            if (closedstack[i].toString() == current.parent){
+                current = closedstack[i];
+            }
+        }
     }
 }
 
@@ -81,22 +86,39 @@ std::vector<Board> Solver::getSuccessors(Board b) {
     //NOTE: this function will break when called BUT it does identify all legal successive moves from the current board state.
     //the problem is actually cloning the vehicles and attaching them to a successor board state, see Board.cpp line 138
     for (int i = 0; i < vehicles.size(); i++) {
-        for (int dist = -b.boardsize; dist <= b.boardsize; dist++) {
-            if (dist != 0 && b.canMove(vehicles[i], dist)){
+        //TODO: define legal min dist and max dist.
+        for (int dist = 1; dist <= b.boardsize; dist++) {
+            if (b.canMove(vehicles[i], dist)){
                 Board temp = Board(6);
                 temp.cost = b.cost;
                 temp.setVehicles(*b.getVehicles());
                 temp.moveVehicle(i, dist);
                 temp.cost += (b.boardsize - abs(dist)); //set G value for board b
+                temp.parent = b.toString();
                 results.push_back(temp);
+            } else {
+                break;
+            }
+        }
+        for (int dist = -1; dist > -b.boardsize; dist--) {
+            if (b.canMove(vehicles[i], dist)){
+                Board temp = Board(6);
+                temp.cost = b.cost;
+                temp.setVehicles(*b.getVehicles());
+                temp.moveVehicle(i, dist);
+                temp.cost += (b.boardsize - abs(dist)); //set G value for board b
+                temp.parent = b.toString();
+                results.push_back(temp);
+            } else {
+                break;
             }
         }
     }
     
-    /*cout << "new successors: " << endl;
+    cout << "new successors to " << b.toString() << ": " << endl;
     for (int i = 0; i < results.size(); i++){
         cout << results[i].toString() << endl;
-    }*/
+    }
     
     return results;
 }

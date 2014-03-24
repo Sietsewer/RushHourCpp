@@ -3,6 +3,7 @@
 Board::Board(int size){
     this->boardsize = size;
     this->cost = 0;
+    this->parent = "";
 }
 
 Board::Board(int size, std::vector<Vehicle*> v){
@@ -43,7 +44,7 @@ Vehicle Board::takeVehicle(int xpos, int ypos){
 }
 
 bool Board::canMove(Vehicle* v, int dist){
-    return (!this->intersect(v, dist) && this->checkBounds(v, dist));
+    return !(this->intersect(v, dist) || !this->checkBounds(v, dist));
 }
 
 std::string Board::toString(){
@@ -133,7 +134,7 @@ int Board::getEstimate(){
         counts += intersect(v, 0) ? 1 : 0;
         delete v; //cleanup
     }
-    return counts * 4; //maybe multiply this by some other factor?
+    return counts * 3; //maybe multiply this by some other factor?
 }
 
 int Board::getFValue(){

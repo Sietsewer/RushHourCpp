@@ -12,12 +12,14 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <math.h>
 #include "Vehicle.h"
 
 class Board{
 public:
     int boardsize;
     int cost; //G value
+    std::string parent;
     
     Board(int size);
     Board(int size, std::vector<Vehicle*> v);
@@ -33,13 +35,14 @@ public:
     int getFValue();
     void moveVehicle(int index, int dist);
     void setVehicles(std::vector<Vehicle*> v);
+    bool intersect(Vehicle *v, int dist);
     
     ~Board();
     
 private:
     std::vector<Vehicle*> vehicles; //vector of pointers to vehicles
     
-    bool intersect(Vehicle *v, int dist);
+    
     bool checkBounds(Vehicle *v, int dist);
 };
 

@@ -72,5 +72,5 @@ std::string Vehicle::toString(){
 }
 
 bool Vehicle::isSame(Vehicle *v){
-    return (this->xanchor == v->xanchor && this->yanchor == v->yanchor && this->width == v->width && this->height == v->height);
+    return (this->toString() == v->toString());
 }
