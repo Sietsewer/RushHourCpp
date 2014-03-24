@@ -29,7 +29,6 @@ std::vector<Board> Solver::dropBoard(Board b, std::vector<Board> list){
 void Solver::solve() {
     std::string goal = "[4,2,2,1]";
     Board current = openstack.back();
-    cout << current.toString() << endl;
     
     while (!(current.toString().find(goal) != std::string::npos)){
     //loop starts here.
@@ -44,14 +43,14 @@ void Solver::solve() {
         closedstack.push_back(current); //add board to closedstack
         openstack = dropBoard(current, openstack); //remove current board from open stack
         std::vector<Board> successors = getSuccessors(current);
-
+        
         //for each possible successor, do this:
         for (int i = 0; i < successors.size(); i++) {
-            if (!containsBoard(successors[i], closedstack)) { //do only if current state is not in the closed stack
+            if (!containsBoard(successors[i], closedstack)) { //current state not yet visited?
                 if (!containsBoard(successors[i], openstack)) { //is current state not on the open stack?
                     openstack.push_back(successors[i]); //put it on the open stack
-                    current = successors[i]; //move to successor (?)
-                } else { //find alternative
+                    current = successors[i]; //move to successor
+                } else { //find occurence of this state
                     Board tempboard = current;
                     for (int j = 0; j < openstack.size(); j++) {
                         if (successors[i].toString() == openstack[i].toString()) {
@@ -60,16 +59,18 @@ void Solver::solve() {
                     }
 
                     if (tempboard.cost <= successors[i].cost) { //compare G costs
+                        dropBoard(tempboard, closedstack);
                         current = tempboard; //if cost is lower, move to other board on openstack
                     }
                 }
             }
-            //else, ignore successor
+            //state already visited, ignore
         }
     }
+    cout << closedstack.size() << endl;
     cout << "Done. Moves: " << endl;
     for (int i = 0; i < closedstack.size(); i++){
-        cout << closedstack[i].toString() << endl;
+        cout << closedstack[i].toString() << closedstack[i].cost << endl;
     }
 }
 
@@ -83,9 +84,10 @@ std::vector<Board> Solver::getSuccessors(Board b) {
         for (int dist = -b.boardsize; dist <= b.boardsize; dist++) {
             if (dist != 0 && b.canMove(vehicles[i], dist)){
                 Board temp = Board(6);
+                temp.cost = b.cost;
                 temp.setVehicles(*b.getVehicles());
                 temp.moveVehicle(i, dist);
-                temp.setCost(b.boardsize - abs(dist)); //set G value for board b
+                temp.cost += (b.boardsize - abs(dist)); //set G value for board b
                 results.push_back(temp);
             }
         }
