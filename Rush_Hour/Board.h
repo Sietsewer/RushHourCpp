@@ -17,7 +17,7 @@
 class Board{
 public:
     int boardsize;
-    int cost;
+    int cost; //G value
     
     Board(int size);
     Board(int size, std::vector<Vehicle*> v);

@@ -5,84 +5,71 @@ Solver::Solver(Board *board) {
     this->openstack.push_back(*board);
 }
 
+bool Solver::containsBoard(Board b, std::vector<Board> list){
+    for (int i = 0; i < list.size(); i++){
+        if(list[i].toString() == b.toString()){
+            return true;
+        }
+    }
+    return false;
+}
+
+std::vector<Board> Solver::dropBoard(Board b, std::vector<Board> list){
+    std::vector<Board> temp;
+    for (int i = 0; i < list.size(); i++){
+        if (!(list[i].toString() == b.toString())){
+            temp.push_back(list[i]);
+        }
+    }
+    swap(list, temp);
+    temp.clear();
+    return list;
+}
+
 void Solver::solve() {
     std::string goal = "[4,2,2,1]";
-    while (!openstack.empty()) {
-        Board current = openstack.back();
-        //get the node off the open list with the lowest f and call it node_current
-        int max = 65536;
-        std::vector<Board> temp;
-        for (int i = 0; i < openstack.size(); i++){
-            if (openstack[i].cost <= max || openstack[i].getFValue() < current.getFValue()){
+    Board current = openstack.back();
+    cout << current.toString() << endl;
+    
+    while (!(current.toString().find(goal) != std::string::npos)){
+    //loop starts here.
+        unsigned int max = 2147483648; // 2^31
+        for (int i = 0; i < openstack.size(); i++) {
+            if (openstack[i].getFValue() <= current.getFValue()) { //find board on open stack with lowest F cost
                 current = openstack[i];
-                closedstack.push_back(current);
-            } else {
-                temp.push_back(openstack[i]);
+                max = current.cost;
             }
         }
-        swap(openstack, temp);
-        
-        if (current.toString().find(goal) != std::string::npos) { //does the current board contain a vehicle on the goal position?
-            break; //solution found; vehicle on the goal position can only be the red car
-        }
-        
-        std::vector<Board> successors = getSuccessors(current); //get possible next moves
-        
+
+        closedstack.push_back(current); //add board to closedstack
+        openstack = dropBoard(current, openstack); //remove current board from open stack
+        std::vector<Board> successors = getSuccessors(current);
+
+        //for each possible successor, do this:
         for (int i = 0; i < successors.size(); i++) {
-            successors[i].cost += current.cost;
-            //if node_successor is on the OPEN list but the existing one is as good or better then discard this successor and continue
-            //if node_successor is on the CLOSED list but the existing one is as good or better then discard this successor and continue
-            std::vector<Board> res;
-            cout << openstack.size() << endl;
-            cout << closedstack.size() << endl;
-            for (int j = 0; j < openstack.size(); j++) {
-                if (successors[i].toString() == openstack[j].toString() && successors[i].cost >= openstack[j].cost) {
-                    res.push_back(openstack[j]);
-                } else {
-                    res.push_back(successors[i]);
+            if (!containsBoard(successors[i], closedstack)) { //do only if current state is not in the closed stack
+                if (!containsBoard(successors[i], openstack)) { //is current state not on the open stack?
+                    openstack.push_back(successors[i]); //put it on the open stack
+                    current = successors[i]; //move to successor (?)
+                } else { //find alternative
+                    Board tempboard = current;
+                    for (int j = 0; j < openstack.size(); j++) {
+                        if (successors[i].toString() == openstack[i].toString()) {
+                            tempboard = openstack[i]; 
+                        }
+                    }
+
+                    if (tempboard.cost <= successors[i].cost) { //compare G costs
+                        current = tempboard; //if cost is lower, move to other board on openstack
+                    }
                 }
             }
-
-            for (int j = 0; j < closedstack.size(); j++) {
-                if (successors[i].toString() == closedstack[j].toString() && successors[i].cost >= closedstack[j].cost) {
-                    res.push_back(closedstack[j]);
-                } else {
-                    res.push_back(successors[i]);
-                }
-            }
-
-            if (res.size() > 0) {
-                Board newcanidate;
-                for (int j = 0; j < res.size(); j++){
-                    if (res[j].cost <= max){
-                        newcanidate = res[j];
-                    }
-                }
-                
-                std::vector<Board> temp2;
-                for (int j = 0; j < openstack.size(); j++) {
-                    if (newcanidate.toString() != openstack[j].toString()) {
-                        temp2.push_back(openstack[j]);
-                    }
-                }
-                swap(openstack, temp2);
-
-                std::vector<Board> temp3;
-                for (int j = 0; j < closedstack.size(); j++) {
-                    if (newcanidate.toString() != closedstack[j].toString()) {
-                        temp3.push_back(closedstack[j]);
-                    }
-                }
-                swap(closedstack, temp3);
-                
-                //set the parent of node_successor to node_current
-                current = newcanidate;
-                //set h to be the estimated distance to node_goal (Using the heuristic function)
-                //doit
-                openstack.push_back(successors[i]);
-            } 
+            //else, ignore successor
         }
-        closedstack.push_back(current);
+    }
+    cout << "Done. Moves: " << endl;
+    for (int i = 0; i < closedstack.size(); i++){
+        cout << closedstack[i].toString() << endl;
     }
 }
 
@@ -98,15 +85,16 @@ std::vector<Board> Solver::getSuccessors(Board b) {
                 Board temp = Board(6);
                 temp.setVehicles(*b.getVehicles());
                 temp.moveVehicle(i, dist);
+                temp.setCost(b.boardsize - abs(dist)); //set G value for board b
                 results.push_back(temp);
             }
         }
     }
     
-    cout << "new successors: " << endl;
+    /*cout << "new successors: " << endl;
     for (int i = 0; i < results.size(); i++){
         cout << results[i].toString() << endl;
-    }
+    }*/
     
     return results;
 }

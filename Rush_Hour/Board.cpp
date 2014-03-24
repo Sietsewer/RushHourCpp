@@ -114,6 +114,7 @@ void Board::setCost(int c){
     this->cost = cost;
 }
 
+//get H cost
 int Board::getEstimate(){
     //find red car y-anchor
     Vehicle *rc; //pointer to red car
@@ -132,7 +133,7 @@ int Board::getEstimate(){
         counts += intersect(v, 0) ? 1 : 0;
         delete v; //cleanup
     }
-    return counts; //maybe multiply this by some factor? gotta look at this again once I fix getSuccessors...
+    return counts * 4; //maybe multiply this by some other factor?
 }
 
 int Board::getFValue(){

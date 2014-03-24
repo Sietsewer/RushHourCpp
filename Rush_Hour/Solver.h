@@ -26,7 +26,9 @@ public:
     void solve();
     
 private:
+    bool containsBoard(Board b, std::vector<Board> list);
     std::vector<Board> getSuccessors(Board b);
+    std::vector<Board> dropBoard(Board b, std::vector<Board> list);
 };
 
 #endif	/* SOLVER_H */
