@@ -31,7 +31,7 @@ void Solver::solve() {
     Board current = openstack.back();
     
     while (openstack.size() > 0){
-        unsigned int max = 65536; // 2^31
+        unsigned int max = 65536; //2^16
         for (int i = 0; i < openstack.size(); i++) {
             if (openstack[i].getFValue() < max) { //find board on open stack with lowest F cost
                 current = openstack[i];
@@ -53,10 +53,9 @@ void Solver::solve() {
                 continue;
             }
             
-            int tentg = current.cost + succ[i].cost;
-            
-            if (!containsBoard(succ[i], openstack) || tentg < succ[i].cost){
-                dropBoard(succ[i], openstack);
+            if (!containsBoard(succ[i], openstack) || current.getFValue() < succ[i].getFValue()){
+                //TODO: set succ[i].parent to current
+                openstack = dropBoard(succ[i], openstack);
                 if (!containsBoard(succ[i], openstack)){
                     openstack.push_back(succ[i]);
                 }
