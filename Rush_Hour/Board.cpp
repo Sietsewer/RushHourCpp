@@ -44,7 +44,10 @@ Vehicle Board::takeVehicle(int xpos, int ypos){
 }
 
 bool Board::canMove(Vehicle* v, int dist){
-    return !(this->intersect(v, dist) || !this->checkBounds(v, dist));
+    if (this->intersect(v, dist) || !this->checkBounds(v, dist)){
+        return false;
+    }
+    return true;
 }
 
 std::string Board::toString(){
@@ -62,12 +65,12 @@ bool Board::intersect(Vehicle* v, int dist){
     for (int i = 0; i < vehicles.size(); i++){
         int p1x = v->xanchor;
         int p1y = v->yanchor;
-        int p2x = v->xanchor + v->width;
-        int p2y = v->yanchor + v->height;
+        int p2x = v->xanchor + v->width - 1;
+        int p2y = v->yanchor + v->height - 1;
         int p3x = vehicles[i]->xanchor;
         int p3y = vehicles[i]->yanchor;
-        int p4x = vehicles[i]->xanchor + vehicles[i]->width;
-        int p4y = vehicles[i]->yanchor + vehicles[i]->height;
+        int p4x = vehicles[i]->xanchor + vehicles[i]->width - 1;
+        int p4y = vehicles[i]->yanchor + vehicles[i]->height - 1;
         
         if(v->orientation == Vehicle::Horizontal){
             p1x += dist;
@@ -77,7 +80,7 @@ bool Board::intersect(Vehicle* v, int dist){
             p2y += dist;
         }
         
-        if (!(p1y <= p3y || p1y >= p4y || p2x <= p3x || p1x >= p4x ) && !(v->isSame(vehicles[i]))){
+        if (!(p2y < p3y || p1y > p4y || p2x < p3x || p1x > p4x) && !(v->isSame(vehicles[i]))){
             return true;
         }
     }
@@ -134,11 +137,12 @@ int Board::getEstimate(){
         counts += intersect(v, 0) ? 1 : 0;
         delete v; //cleanup
     }
-    return counts * 3; //maybe multiply this by some other factor?
+    return counts * 4; //maybe multiply this by some other factor?
 }
 
 int Board::getFValue(){
-    return getEstimate() + this->cost;
+    //return getEstimate() + this->cost;
+    return cost;
 }
 
 void Board::moveVehicle(int index, int dist){
@@ -148,14 +152,11 @@ void Board::moveVehicle(int index, int dist){
 void Board::setVehicles(std::vector<Vehicle*> v){
     vehicles.clear();
     for (int i = 0; i < v.size(); i++){
-        //uncomment the following line to break shit:
-        //Vehicle veh = *v[i];
         int x = v[i]->xanchor;
         int y = v[i]->yanchor;
         int w = v[i]->width;
         int h = v[i]->height;
         Vehicle *v = new Vehicle(x, y, w, h);
         this->vehicles.push_back(v);
-        //I MEAN SERIOUSLY WHAT THE HELL, THIS SHOULD TOTALLY WORK
     }
 }
