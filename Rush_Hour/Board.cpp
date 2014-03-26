@@ -140,7 +140,7 @@ int Board::getEstimate(){
         counts += intersect(v, 0) ? 1 : 0;
         delete v; //cleanup
     }
-    return counts * 4; //maybe multiply this by some other factor?
+    return counts * vehicles.size(); //maybe multiply this by some other factor?
 }
 
 int Board::getFValue(){
