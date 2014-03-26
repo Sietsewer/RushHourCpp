@@ -144,8 +144,8 @@ int Board::getEstimate(){
 }
 
 int Board::getFValue(){
-    //return getEstimate() + this->cost;
-    return cost;
+    return getEstimate() + this->cost;
+    //return cost;
 }
 
 void Board::moveVehicle(int index, int dist){
@@ -159,7 +159,8 @@ void Board::setVehicles(std::vector<Vehicle*> v){
         int y = v[i]->yanchor;
         int w = v[i]->width;
         int h = v[i]->height;
-        Vehicle *v = new Vehicle(x, y, w, h);
-        this->vehicles.push_back(v);
+        Vehicle *v2 = new Vehicle(x, y, w, h);
+        v2->color = v[i]->color;
+        this->vehicles.push_back(v2);
     }
 }

@@ -85,17 +85,15 @@ void vehicle_3_click() {
 }
 
 void btn_step_next_click() {
-    if (pindex + 1 < path.size() && path.size() > 0){
-        b = &path[pindex];
-        cout << b->toString();
+    if (pindex + 1 < path.size()){
+        b = &path[pindex + 1];
         pindex++;
     }
 }
 
 void btn_step_prev_click() {
     if (pindex - 1 >= 0 && path.size() > 0) {
-        b = &path[pindex];
-        cout << b->toString();
+        b = &path[pindex - 1];
         pindex--;
     }
 }
