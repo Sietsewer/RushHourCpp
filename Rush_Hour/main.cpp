@@ -57,6 +57,7 @@ ColorGiver colors = ColorGiver();
 void btn_Solve_Click() {
     //Stuff to do when you click the solve button
     s = new Solver(b);
+    path.clear();
     path = s->solve(); //a* search!
     pindex = 0;
     for (int i = 0; i < path.size(); i++){
@@ -224,8 +225,11 @@ int main(int argc, char** argv) {
             }
         }
         vehiclePointers = b->getVehicles();
+        Vehicle v;
         for (int i = 0; i < vehiclePointers->size(); i++) {
-            window.draw(*vehiclePointers->at(i)->rect);
+            v = *vehiclePointers->at(i);
+            v.rect->setFillColor(v.color);
+            window.draw(*v.rect);
         }
         //Here, AND NO FURTHER. (Else order will be fucked)
         //END main board
