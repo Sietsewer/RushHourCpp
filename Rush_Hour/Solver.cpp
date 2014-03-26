@@ -26,7 +26,7 @@ std::vector<Board> Solver::dropBoard(Board b, std::vector<Board> list){
     return list;
 }
 
-void Solver::solve() {
+std::vector<Board> Solver::solve() {
     std::string goal = "[4,2,2,1]";
     Board current = openstack.back();
     
@@ -40,8 +40,9 @@ void Solver::solve() {
         }
         
         if (current.toString().find(goal) != std::string::npos){
+            //goal found!
             cout << "Done: " << current.toString() << " in " << closedstack.size() << " checks" << endl;
-            return;
+            return getPath(&current);
         }
         
         openstack = dropBoard(current, openstack);
@@ -49,39 +50,66 @@ void Solver::solve() {
         
         std::vector<Board> succ = getSuccessors(current);
         for (int i = 0; i < succ.size(); i++){
-            if (containsBoard(succ[i], closedstack)){
+            if (containsBoard(succ[i], closedstack)){ //if successor already in closed, skip this uccessor
                 continue;
             }
             
-            if (!containsBoard(succ[i], openstack) || current.getFValue() < succ[i].getFValue()){
-                //TODO: set succ[i].parent to current
+            if (!containsBoard(succ[i], openstack) || current.cost < succ[i].cost){
+                //set succ[i].parent to current if current.cost < succ[i].cost, closes loop
+                Board *t = new Board(6);
+                t->setVehicles(*current.getVehicles());
+                t->parent = current.parent;
+                succ[i].parent = t; //added current as parent
                 openstack = dropBoard(succ[i], openstack);
-                if (!containsBoard(succ[i], openstack)){
-                    openstack.push_back(succ[i]);
+                if (!containsBoard(succ[i], openstack)){ //if successor not in open
+                    openstack.push_back(succ[i]); //add to open for F evaluation
                 }
             }
         }
     }
+    cout << "Path not found after " << closedstack.size() << " checks" << endl;
 
-    cout << "Not found after " << closedstack.size() << " checks." << endl;
+    std::vector<Board> empty;
+    return empty;
+}
+
+std::vector<Board> Solver::getPath(Board *bptr){
+    std::vector<Board> path;
+    do {
+        path.push_back(*bptr);
+        bptr = bptr->parent;
+    } while (bptr != NULL);
+    
+    std::vector<Board> temp;
+    while (!path.empty()){
+        temp.push_back(path.back()); //reverse order
+        path.pop_back();
+    }
+    swap (path, temp);
+    return path;
 }
 
 std::vector<Board> Solver::getSuccessors(Board b) {
     std::vector<Board> results;
     std::vector<Vehicle*> vehicles = *b.getVehicles();
     //create vector of states of possible moves for each vehicle on the board
-    for (int i = 0; i < vehicles.size(); i++) {
+    for (int i = 0; i < vehicles.size(); i++) { //for each vehicle
         for (int dist = 1; dist <= b.boardsize; dist++) {
             if (b.canMove(vehicles[i], dist)){
                 Board temp = Board(6);
                 temp.cost = b.cost;
                 temp.setVehicles(*b.getVehicles());
                 temp.moveVehicle(i, dist);
+                //G value is based on move distance: the greater the diztance, the lower the cost
                 temp.cost += (b.boardsize - abs(dist)); //set G value for board b
-                temp.parent = b.toString(); //TODO: store parent boards as a pointer to a board!
+                //create parent
+                Board *temp2 = new Board(6);
+                temp2->setVehicles(*b.getVehicles());
+                temp2->parent = b.parent;
+                temp.parent = temp2; //added b as parent
                 results.push_back(temp);
             } else {
-                break;
+                break; //stop if it's no longer possible to move, prevent teleporting vehicles
             }
         }
         for (int dist = -1; dist > -b.boardsize; dist--) {
@@ -91,7 +119,11 @@ std::vector<Board> Solver::getSuccessors(Board b) {
                 temp.setVehicles(*b.getVehicles());
                 temp.moveVehicle(i, dist);
                 temp.cost += (b.boardsize - abs(dist)); //set G value for board b
-                temp.parent = b.toString();
+                //create parent
+                Board *temp2 = new Board(6);
+                temp2->setVehicles(*b.getVehicles());
+                temp2->parent = b.parent;
+                temp.parent = temp2; //added b as parent
                 results.push_back(temp);
             } else {
                 break;

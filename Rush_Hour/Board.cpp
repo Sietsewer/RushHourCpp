@@ -3,7 +3,7 @@
 Board::Board(int size){
     this->boardsize = size;
     this->cost = 0;
-    this->parent = "";
+    this->parent = NULL;
 }
 
 Board::Board(int size, std::vector<Vehicle*> v){
@@ -63,6 +63,7 @@ std::string Board::toString(){
 //check if vehicle + move offset intersects with other vehicles
 bool Board::intersect(Vehicle* v, int dist){
     for (int i = 0; i < vehicles.size(); i++){
+        //rectangle intersection for every vehicle
         int p1x = v->xanchor;
         int p1y = v->yanchor;
         int p2x = v->xanchor + v->width - 1;
@@ -80,6 +81,7 @@ bool Board::intersect(Vehicle* v, int dist){
             p2y += dist;
         }
         
+        //ignore intersection with vehicle itself
         if (!(p2y < p3y || p1y > p4y || p2x < p3x || p1x > p4x) && !(v->isSame(vehicles[i]))){
             return true;
         }
@@ -109,7 +111,7 @@ Board::~Board(){
 
 void Board::clear(){
     for (int i = 0; i < vehicles.size(); i++){
-        delete this->vehicles[i];
+        //delete this->vehicles[i];
     }
     this->vehicles.clear();
 }
@@ -120,7 +122,8 @@ void Board::setCost(int c){
 
 //get H cost
 int Board::getEstimate(){
-    //find red car y-anchor
+    //calculate estimate by counting number of vehicles between red car and exit
+    //find red car x-anchor
     Vehicle *rc; //pointer to red car
     for (int i = 0; i < this->vehicles.size(); i++){
         //red car is the only possible vehicle that has a x-anchor of 2 and a horizontal orientation

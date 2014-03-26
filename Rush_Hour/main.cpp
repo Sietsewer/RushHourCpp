@@ -23,6 +23,8 @@ using namespace std;
  */
 Solver *s;
 Board *b;
+std::vector<Board> path;
+int pindex = 0;
 
 sf::Color themeColor = sf::Color::Green;
 sf::Color backColor = sf::Color::White;
@@ -53,13 +55,13 @@ sf::Color newColor = sf::Color::Yellow;
 ColorGiver colors = ColorGiver();
 
 void btn_Solve_Click() {
-    cout << "Button clicky!" << endl;
     //Stuff to do when you click the solve button
     s = new Solver(b);
-    s->solve(); //Don't use this one yet, please. Shit just fucking breaks right now
-    //see Solver::getSuccessors() for a little more detail
-    //things specifically go wrong at Board line 138, still don't know what's causing it...
-    //also move this bit to btn_Solve_Click() once it actually works
+    path = s->solve(); //a* search!
+    pindex = 0;
+    for (int i = 0; i < path.size(); i++){
+        cout << path[i].toString() << endl;
+    }
 }
 
 void vehicle_2_click() {
@@ -83,11 +85,19 @@ void vehicle_3_click() {
 }
 
 void btn_step_next_click() {
-
+    if (pindex + 1 < path.size() && path.size() > 0){
+        b = &path[pindex];
+        cout << b->toString();
+        pindex++;
+    }
 }
 
 void btn_step_prev_click() {
-
+    if (pindex - 1 >= 0 && path.size() > 0) {
+        b = &path[pindex];
+        cout << b->toString();
+        pindex--;
+    }
 }
 
 int main(int argc, char** argv) {

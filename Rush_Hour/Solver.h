@@ -23,7 +23,8 @@ public:
     Board board;
     
     Solver(Board *board);
-    void solve();
+    std::vector<Board> solve();
+    std::vector<Board> getPath(Board *b);
     
 private:
     bool containsBoard(Board b, std::vector<Board> list);

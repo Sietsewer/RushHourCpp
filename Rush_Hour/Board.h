@@ -19,7 +19,7 @@ class Board{
 public:
     int boardsize;
     int cost; //G value
-    std::string parent;
+    Board *parent;
     
     Board(int size);
     Board(int size, std::vector<Vehicle*> v);
