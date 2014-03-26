@@ -35,6 +35,8 @@ sf::RectangleShape rect_btn_Solve(sf::Vector2f(120.0f, 40.0f));
 sf::RectangleShape rect_btn_vehicle_2(sf::Vector2f(120.0f, 40.0f));
 sf::RectangleShape rect_btn_vehicle_3(sf::Vector2f(120.0f, 40.0f));
 sf::RectangleShape board_Rects[6][6];
+sf::RectangleShape rect_btn_step_next(sf::Vector2f(40.0f, 40.0f));
+sf::RectangleShape rect_btn_step_prev(sf::Vector2f(40.0f, 40.0f));
 //Menu items end
 
 bool dragging = false;
@@ -45,6 +47,7 @@ sf::Vector2f mouseLocation;
 int dragWidth;
 int dragHeight;
 bool rotateDownBlock = false;
+bool moveDownBlock = false;
 sf::Color newColor = sf::Color::Yellow;
 
 ColorGiver colors = ColorGiver();
@@ -79,6 +82,14 @@ void vehicle_3_click() {
     draggingRect.setPosition(mouseLocation);
 }
 
+void btn_step_next_click() {
+
+}
+
+void btn_step_prev_click() {
+
+}
+
 int main(int argc, char** argv) {
 
     //testing shit pls don't touch kthxbye
@@ -102,6 +113,8 @@ int main(int argc, char** argv) {
     rect_btn_Solve.setFillColor(themeColor);
     rect_btn_vehicle_2.setFillColor(themeColor);
     rect_btn_vehicle_3.setFillColor(themeColor);
+    rect_btn_step_next.setFillColor(themeColor);
+    rect_btn_step_prev.setFillColor(themeColor);
 
     //  Positions
     sideBarOutline.setPosition(600.0f, 0.0f);
@@ -110,6 +123,8 @@ int main(int argc, char** argv) {
     rect_btn_Solve.setPosition(640.0f, 360.0f);
     rect_btn_vehicle_2.setPosition(640.0f, 40.0f);
     rect_btn_vehicle_3.setPosition(640.0f, 100.0f);
+    rect_btn_step_next.setPosition(720.0f, 420.0f);
+    rect_btn_step_prev.setPosition(640.0f, 420.0f);
 
     //  Board loop
     for (int i = 0; i < 6; i++) {
@@ -124,6 +139,8 @@ int main(int argc, char** argv) {
     Button btn_Solve(rect_btn_Solve, themeColor, sf::Color::Black, &window, &btn_Solve_Click);
     Button btn_vehicle_2(rect_btn_vehicle_2, themeColor, sf::Color::Black, &window, &vehicle_2_click);
     Button btn_vehicle_3(rect_btn_vehicle_3, themeColor, sf::Color::Black, &window, &vehicle_3_click);
+    Button btn_step_next(rect_btn_step_next, themeColor, sf::Color::Black, &window, &btn_step_next_click);
+    Button btn_step_prev(rect_btn_step_prev, themeColor, sf::Color::Black, &window, &btn_step_prev_click);
 
     //Menu items end
     while (window.isOpen()) {
@@ -137,7 +154,7 @@ int main(int argc, char** argv) {
 
             if (dragging) {
                 draggingRect.setPosition(mouseLocation);
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Right)&&~rotateDownBlock) {
+                if ((sf::Mouse::isButtonPressed(sf::Mouse::Right)&&~rotateDownBlock)) {
                     int temp = dragWidth;
                     dragWidth = dragHeight;
                     dragHeight = temp;
@@ -162,22 +179,31 @@ int main(int argc, char** argv) {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                     btn_vehicle_2.mouseDown();
                     btn_vehicle_3.mouseDown();
+                    btn_step_next.mouseDown();
+                    btn_step_prev.mouseDown();
                     btn_Solve.mouseDown();
-                    if ((mouseLocation.x > 0.0f && mouseLocation.x <= 600.0f)&&(mouseLocation.y > 0.0f && mouseLocation.y <= 600.0f)) {
+                    moveDownBlock = true;
+                    if (((mouseLocation.x > 0.0f && mouseLocation.x <= 600.0f)&&(mouseLocation.y > 0.0f && mouseLocation.y <= 600.0f)) && ~moveDownBlock) {
+
                         Vehicle t = b->takeVehicle((int) mouseLocation.x / 100.0f, (int) mouseLocation.y / 100.0f);
-                        dragging = true;
-                        dragWidth = t.width;
-                        dragHeight = t.height;
-                        draggingRect.setSize(sf::Vector2f(dragWidth * 100.0f, dragHeight * 100.0f));
-                        draggingRect.setFillColor(t.color);
-                        draggingRect.setOrigin(50.0f, 50.0f);
-                        draggingRect.setPosition(mouseLocation);
+                        if (~(t.color == sf::Color::Black)) {
+                            dragging = true;
+                            dragWidth = t.width;
+                            dragHeight = t.height;
+                            draggingRect.setSize(sf::Vector2f(dragWidth * 100.0f, dragHeight * 100.0f));
+                            draggingRect.setFillColor(t.color);
+                            draggingRect.setOrigin(50.0f, 50.0f);
+                            draggingRect.setPosition(mouseLocation);
+                        }
                     }
 
                 } else {
                     btn_vehicle_2.mouseUp();
                     btn_vehicle_3.mouseUp();
+                    btn_step_next.mouseUp();
+                    btn_step_prev.mouseUp();
                     btn_Solve.mouseUp();
+                    moveDownBlock = false;
                 }
             }
         }
@@ -203,6 +229,8 @@ int main(int argc, char** argv) {
         window.draw(btn_Solve);
         window.draw(btn_vehicle_2);
         window.draw(btn_vehicle_3);
+        window.draw(btn_step_next);
+        window.draw(btn_step_prev);
         if (dragging) {
             window.draw(draggingRect);
         }
@@ -221,4 +249,3 @@ int main(int argc, char** argv) {
     //end test
     return 0;
 }
-
