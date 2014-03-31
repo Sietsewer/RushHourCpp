@@ -26,8 +26,8 @@ Board *b;
 std::vector<Board> path;
 int pindex = 0;
 
-sf::Color themeColor = sf::Color::Green;
-sf::Color backColor = sf::Color::White;
+sf::Color themeColor = sf::Color::Green;        //Default colour for menus
+sf::Color backColor = sf::Color::White;         //Default other colour for menus
 
 //Menu items and such
 sf::RectangleShape sideBarOutline(sf::Vector2f(200.0f, 600.0f));
@@ -41,18 +41,17 @@ sf::RectangleShape rect_btn_step_next(sf::Vector2f(40.0f, 40.0f));
 sf::RectangleShape rect_btn_step_prev(sf::Vector2f(40.0f, 40.0f));
 //Menu items end
 
-bool dragging = false;
-Vehicle dragged;
-sf::RectangleShape draggingRect;
+bool dragging = false;  //True if dragging a vehicle
+Vehicle dragged;        //Vehicle that is being dragged
+sf::RectangleShape draggingRect;        //Shape to indicate location of dragged vehicle
 std::vector<Vehicle*>* vehiclePointers;
-sf::Vector2f mouseLocation;
-int dragWidth;
+sf::Vector2f mouseLocation;     //Location of the mouse pointer in the window.
+int dragWidth;  //Size of the vehicle being dragged
 int dragHeight;
-bool rotateDownBlock = false;
-bool moveDownBlock = false;
-sf::Color newColor = sf::Color::Yellow;
+bool rotateDownBlock = false;   //True if the rotate button is down
+bool moveDownBlock = false;     //True if the move button is down
 
-ColorGiver colors = ColorGiver();
+ColorGiver colors = ColorGiver();       //Object of class that gives new colors
 
 void btn_Solve_Click() {
     //Stuff to do when you click the solve button
@@ -66,18 +65,20 @@ void btn_Solve_Click() {
 }
 
 void vehicle_2_click() {
-    dragging = true;
-    dragWidth = 2;
+    //Called when the button for vehicle of 2 is clicked
+    dragging = true;    //Set dragging state
+    dragWidth = 2;      //Set vehicle sizes
     dragHeight = 1;
-    draggingRect.setSize(sf::Vector2f(dragWidth * 100.0f, dragHeight * 100.0f));
+    draggingRect.setSize(sf::Vector2f(dragWidth * 100.0f, dragHeight * 100.0f));//Multiply size by 100, as grid square is 100 by 100
     draggingRect.setFillColor(colors.getColor());
-    draggingRect.setOrigin(50.0f, 50.0f);
-    draggingRect.setPosition(mouseLocation);
+    draggingRect.setOrigin(50.0f, 50.0f);//Offset origin a bit, so the mouse is in the middle of the shape
+    draggingRect.setPosition(mouseLocation);    //Set rectangle on mouse location
 }
 
 void vehicle_3_click() {
+    //Called when the button for vehicle of 3 is clicked. Same as method above^^
     dragging = true;
-    dragWidth = 3;
+    dragWidth = 3;      //Except for this, though.
     dragHeight = 1;
     draggingRect.setSize(sf::Vector2f(dragWidth * 100.0f, dragHeight * 100.0f));
     draggingRect.setFillColor(colors.getColor());
@@ -86,6 +87,7 @@ void vehicle_3_click() {
 }
 
 void btn_step_next_click() {
+    //Cycle trough sollution steps
     if (pindex + 1 < path.size()){
         b = &path[pindex + 1];
         pindex++;
@@ -93,6 +95,7 @@ void btn_step_next_click() {
 }
 
 void btn_step_prev_click() {
+    //Cycle trough sollution steps, except backwards
     if (pindex - 1 >= 0 && path.size() > 0) {
         b = &path[pindex - 1];
         pindex--;
@@ -100,8 +103,7 @@ void btn_step_prev_click() {
 }
 
 int main(int argc, char** argv) {
-
-    //testing shit pls don't touch kthxbye
+    //Setting a default board state
     b = new Board(6);
     //b->addVehicle(new Vehicle(1, 0, 1, 3));
     b->addVehicle(new Vehicle(1, 0, 2, 1, colors.getColor()));
@@ -109,11 +111,9 @@ int main(int argc, char** argv) {
     //b->addVehicle(new Vehicle(0, 2, 2, 1, colors.getColor()));
     cout << b->toString() << endl;
 
-    //colors = new ColorGiver();
-
 
     sf::RenderWindow window;
-    window.create(sf::VideoMode(800, 600), "Rush Hour");
+    window.create(sf::VideoMode(800, 600), "Rush Hour");//Create a window object
     //Menu items settings
     //  Colours
     sideBarOutline.setFillColor(themeColor);
@@ -153,6 +153,7 @@ int main(int argc, char** argv) {
 
     //Menu items end
     while (window.isOpen()) {
+        //   ---   UPDATE LOOP BEGINS HERE   ---   //
         sf::Event event;
         mouseLocation = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
@@ -162,30 +163,36 @@ int main(int argc, char** argv) {
             }
 
             if (dragging) {
-                draggingRect.setPosition(mouseLocation);
+                //Enter when dragging a shape
+                draggingRect.setPosition(mouseLocation);//Set shape location on mouse pointer
                 if ((sf::Mouse::isButtonPressed(sf::Mouse::Right)&&~rotateDownBlock)) {
-                    int temp = dragWidth;
+                    //Enter when rotate button is clicked (while dragging, ofc.)
+                    int temp = dragWidth;//Swap shape width an height
                     dragWidth = dragHeight;
                     dragHeight = temp;
 
-                    draggingRect.setSize(sf::Vector2f(dragWidth * 100.0f, dragHeight * 100.0f));
+                    draggingRect.setSize(sf::Vector2f(dragWidth * 100.0f, dragHeight * 100.0f));//Apply new sizes to shape
                     draggingRect.setOrigin(50.0f, 50.0f);
                     draggingRect.setPosition(mouseLocation);
-                    rotateDownBlock = true;
+                    rotateDownBlock = true;// Set state to rotate, to prevent spamming of rotation when button is held
                 } else {
-                    rotateDownBlock = false;
+                    //Enter when rotate is not pressed, or held down
+                    rotateDownBlock = sf::Mouse::isButtonPressed(sf::Mouse::Right);// Set state to state of button
                 }
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left)&&~moveDownBlock) {
                     dragging = false;
                     if ((mouseLocation.x > 0.0f && mouseLocation.x <= 600.0f)&&(mouseLocation.y > 0.0f && mouseLocation.y <= 600.0f)) {
                         b->addVehicle(new Vehicle((int) (mouseLocation.x / 100.0f), (int) (mouseLocation.y / 100.0f), dragWidth, dragHeight, draggingRect.getFillColor()));
                     }
+                    moveDownBlock=true;
+                } else {
+                    moveDownBlock = sf::Mouse::isButtonPressed(sf::Mouse::Left);
                 }
                 /*if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
                     dragging = false;
                 }*/
             } else {
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left)&&~moveDownBlock) {
                     btn_vehicle_2.mouseDown();
                     btn_vehicle_3.mouseDown();
                     btn_step_next.mouseDown();
@@ -195,6 +202,7 @@ int main(int argc, char** argv) {
                     if (((mouseLocation.x > 0.0f && mouseLocation.x <= 600.0f)&&(mouseLocation.y > 0.0f && mouseLocation.y <= 600.0f)) && ~moveDownBlock) {
 
                         Vehicle t = b->takeVehicle((int) mouseLocation.x / 100.0f, (int) mouseLocation.y / 100.0f);
+                        moveDownBlock = true;
                         if (~(t.color == sf::Color::Black)) {
                             dragging = true;
                             dragWidth = t.width;
@@ -204,15 +212,18 @@ int main(int argc, char** argv) {
                             draggingRect.setOrigin(50.0f, 50.0f);
                             draggingRect.setPosition(mouseLocation);
                         }
+                    } else {
+                        moveDownBlock = sf::Mouse::isButtonPressed(sf::Mouse::Left);
                     }
 
                 } else {
+                    moveDownBlock = sf::Mouse::isButtonPressed(sf::Mouse::Left);
                     btn_vehicle_2.mouseUp();
                     btn_vehicle_3.mouseUp();
                     btn_step_next.mouseUp();
                     btn_step_prev.mouseUp();
                     btn_Solve.mouseUp();
-                    moveDownBlock = false;
+                    
                 }
             }
         }
@@ -254,6 +265,7 @@ int main(int argc, char** argv) {
 
         window.display(); //END render list << --
     }
+    //   ---   UPDATE LOOP ENDS HERE   ---   //
     delete b; //memory leak fixed!
     delete s;
     b = NULL; //for safety
